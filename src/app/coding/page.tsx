@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { GlassCard } from "@/components/ui/GlassCard";
 import Editor from "@monaco-editor/react";
 import { 
   Play, Save, RefreshCcw, Code2, 
   Terminal, CheckCircle2, AlertCircle,
-  ChevronRight, Trophy, Clock, Loader2
+  ChevronRight, Trophy, Clock, Loader2, Info
 } from "lucide-react";
 import { PROGRAMMING_LANGUAGES, cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
