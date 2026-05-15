@@ -62,8 +62,9 @@ export default function InterviewSetupPage() {
         status: "in-progress" as const,
         createdAt: new Date().toISOString(),
         questions: questions.map(q => ({
-          ...q,
-          type: q.type as any
+          id: crypto.randomUUID(),
+          text: q.text,
+          type: q.type as any, // Cast to store's supported types
         }))
       };
 

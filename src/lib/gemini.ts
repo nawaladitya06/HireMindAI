@@ -1,4 +1,4 @@
-import { EvaluationResult, InterviewQuestion } from "./store";
+import { Feedback, Question } from "./store";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8787";
 
@@ -8,7 +8,7 @@ export async function generateInterviewQuestions(params: {
   techStack: string[];
   resumeText?: string;
   count?: number;
-}): Promise<InterviewQuestion[]> {
+}): Promise<Question[]> {
   try {
     const response = await fetch(`${BACKEND_URL}/interview/generate`, {
       method: "POST",
@@ -17,7 +17,7 @@ export async function generateInterviewQuestions(params: {
     });
 
     if (!response.ok) throw new Error("Failed to generate questions");
-    return await response.json();
+    return (await response.json()) as Question[];
   } catch (error) {
     console.error("AI Generation Error:", error);
     throw error;
@@ -29,7 +29,6 @@ export async function generateFollowUpQuestion(
   answer: string,
   role: string
 ): Promise<string> {
-  // We can add this endpoint to Hono as well if needed
   return "Can you provide a specific example from your experience?";
 }
 
@@ -37,7 +36,7 @@ export async function evaluateInterview(params: {
   role: string;
   experienceLevel: string;
   questions: Array<{ id: string; text: string; answer: string; type: string }>;
-}): Promise<any> {
+}): Promise<Feedback> {
   try {
     const response = await fetch(`${BACKEND_URL}/interview/evaluate`, {
       method: "POST",
@@ -46,14 +45,14 @@ export async function evaluateInterview(params: {
     });
 
     if (!response.ok) throw new Error("Failed to evaluate interview");
-    return await response.json();
+    return (await response.json()) as Feedback;
   } catch (error) {
     console.error("AI Evaluation Error:", error);
     throw error;
   }
 }
 
-export async function generateResumeQuestions(resumeText: string, role: string): Promise<InterviewQuestion[]> {
+export async function generateResumeQuestions(resumeText: string, role: string): Promise<Question[]> {
   return generateInterviewQuestions({
     role,
     experienceLevel: "senior",

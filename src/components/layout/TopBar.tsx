@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, Search, Command, CheckCircle2, AlertTriangle, MessageSquare, Loader2 } from "lucide-react";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, Notification as AppNotification } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 export function TopBar() {
   const { user } = useAppStore();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function TopBar() {
       try {
         const res = await fetch("/api/notifications");
         if (res.ok) {
-          const data = await res.json();
+          const data = (await res.json()) as AppNotification[];
           setNotifications(data);
         }
       } catch (error) {

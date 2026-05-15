@@ -14,6 +14,30 @@ import { cn, formatDuration } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { evaluateInterview } from "@/lib/gemini";
 
+interface SpeechRecognitionEvent extends Event {
+  resultIndex: number;
+  results: {
+    [index: number]: {
+      isFinal: boolean;
+      [index: number]: {
+        transcript: string;
+      };
+    };
+    length: number;
+  };
+}
+
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: (event: SpeechRecognitionEvent) => void;
+  onerror: (event: any) => void;
+  onend: () => void;
+  start: () => void;
+  stop: () => void;
+}
+
 export default function InterviewRoomPage() {
   const { id } = useParams();
   const router = useRouter();
@@ -28,8 +52,8 @@ export default function InterviewRoomPage() {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [micPermission, setMicPermission] = useState<"granted" | "denied" | "prompt">("prompt");
 
-  const recognitionRef = useRef<any>(null);
-  const timerRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (!currentInterview) {
@@ -46,15 +70,15 @@ export default function InterviewRoomPage() {
 
     // Initialize Speech Recognition
     if (typeof window !== "undefined") {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const SpeechRecognitionConstructor = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       
-      if (SpeechRecognition) {
-        recognitionRef.current = new SpeechRecognition();
+      if (SpeechRecognitionConstructor) {
+        recognitionRef.current = new SpeechRecognitionConstructor() as SpeechRecognition;
         recognitionRef.current.continuous = true;
         recognitionRef.current.interimResults = true;
         recognitionRef.current.lang = "en-US";
 
-        recognitionRef.current.onresult = (event: any) => {
+        recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
           let interim = "";
           for (let i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
@@ -77,7 +101,7 @@ export default function InterviewRoomPage() {
         };
 
         recognitionRef.current.onend = () => {
-          if (isListening) {
+          if (isListening && recognitionRef.current) {
             try {
               recognitionRef.current.start(); 
             } catch (e) {

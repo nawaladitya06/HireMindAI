@@ -23,6 +23,14 @@ type PistonExecutionResult = {
   memory?: string;
 };
 
+type TestResult = {
+  id: number;
+  name: string;
+  status: "passed" | "failed";
+  time: string;
+  memory: string;
+};
+
 export default function CodingPage() {
   const [selectedLang, setSelectedLang] = useState(PROGRAMMING_LANGUAGES[0]);
   const [code, setCode] = useState(selectedLang.template);
@@ -30,7 +38,7 @@ export default function CodingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [output, setOutput] = useState("");
   const [activeTab, setActiveTab] = useState<"problem" | "testcases">("problem");
-  const [testResults, setTestResults] = useState<any[]>([]);
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
   const [isSolved, setIsSolved] = useState(false);
 

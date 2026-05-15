@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, Interview, Resume, Notification as AppNotification } from "@/lib/store";
 
 export function StoreSync() {
   const { data: session, status } = useSession();
@@ -11,7 +11,7 @@ export function StoreSync() {
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       setUser({
-        id: session.user.id!,
+        id: session.user.id as string,
         name: session.user.name || "",
         email: session.user.email || "",
         image: session.user.image || undefined,
@@ -30,15 +30,15 @@ export function StoreSync() {
           ]);
 
           if (interviewsRes.ok) {
-            const interviews = await interviewsRes.json();
+            const interviews = (await interviewsRes.json()) as Interview[];
             setInterviews(interviews);
           }
           if (resumesRes.ok) {
-            const resumes = await resumesRes.json();
+            const resumes = (await resumesRes.json()) as Resume[];
             setResumes(resumes);
           }
           if (notificationsRes.ok) {
-            const notifications = await notificationsRes.json();
+            const notifications = (await notificationsRes.json()) as AppNotification[];
             setNotifications(notifications);
           }
         } catch (error) {
