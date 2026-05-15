@@ -1,6 +1,5 @@
+import { generateInterviewQuestions as aiGenerateQuestions, evaluateInterview as aiEvaluateInterview } from "./ai-actions";
 import { Feedback, Question } from "./store";
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8787";
 
 export async function generateInterviewQuestions(params: {
   role: string;
@@ -9,19 +8,7 @@ export async function generateInterviewQuestions(params: {
   resumeText?: string;
   count?: number;
 }): Promise<Question[]> {
-  try {
-    const response = await fetch(`${BACKEND_URL}/interview/generate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
-    });
-
-    if (!response.ok) throw new Error("Failed to generate questions");
-    return (await response.json()) as Question[];
-  } catch (error) {
-    console.error("AI Generation Error:", error);
-    throw error;
-  }
+  return aiGenerateQuestions(params);
 }
 
 export async function generateFollowUpQuestion(
@@ -37,19 +24,7 @@ export async function evaluateInterview(params: {
   experienceLevel: string;
   questions: Array<{ id: string; text: string; answer: string; type: string }>;
 }): Promise<Feedback> {
-  try {
-    const response = await fetch(`${BACKEND_URL}/interview/evaluate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
-    });
-
-    if (!response.ok) throw new Error("Failed to evaluate interview");
-    return (await response.json()) as Feedback;
-  } catch (error) {
-    console.error("AI Evaluation Error:", error);
-    throw error;
-  }
+  return aiEvaluateInterview(params);
 }
 
 export async function generateResumeQuestions(resumeText: string, role: string): Promise<Question[]> {

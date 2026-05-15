@@ -6,8 +6,8 @@ pages_build_output_dir = ".next"
 [[d1_databases]]
 binding = "DB"
 database_name = "hiremind_db"
-database_id = "PLACEHOLDER_D1_DATABASE_ID"
+database_id = "9cc17df0-6b3a-4914-9f71-4d69f44c7e2b"
 
 [vars]
 NEXTAUTH_URL = "http://localhost:3000"
-GEMINI_API_KEY = "PLACEHOLDER"
+GEMINI_API_KEY = "AIzaSyAerzH6_kbDVGQ3KUwubFcgNyUOBEe2lDw"
