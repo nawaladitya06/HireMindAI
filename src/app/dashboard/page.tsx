@@ -76,7 +76,7 @@ export default function DashboardPage() {
       { label: "Communication", value: avgComm, icon: MessageSquare, color: "bg-purple-500" },
       { label: "Technical Depth", value: avgTech, icon: Code2, color: "bg-blue-500" },
       { label: "System Design", value: Math.round((avgTech * 0.8)), icon: Target, color: "bg-cyan-500" },
-      { label: "Problem Solving", value: Math.round((avgScore + avgTech) / 2), icon: Zap, color: "bg-pink-500" },
+      { label: "Problem Solving", value: Math.round((stats.avgScore + avgTech) / 2), icon: Zap, color: "bg-pink-500" },
     ];
   }, [interviews, stats.avgScore]);
 
