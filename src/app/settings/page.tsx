@@ -3,7 +3,7 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { useAppStore } from "@/lib/store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { 
   User, Mail, Shield, Bell, CreditCard, 
@@ -23,6 +23,15 @@ export default function SettingsPage() {
   const [fullName, setFullName] = useState(user?.name || "");
   const [emailAddress, setEmailAddress] = useState(user?.email || "");
   const [targetRole, setTargetRole] = useState(user?.role || "Software Engineer");
+
+  // Sync state if user loads asynchronously
+  useEffect(() => {
+    if (user) {
+      setFullName(prev => prev || user.name || "");
+      setEmailAddress(prev => prev || user.email || "");
+      setTargetRole(prev => prev === "Software Engineer" ? (user.role || "Software Engineer") : prev);
+    }
+  }, [user]);
 
   // Security Settings State
   const [currentPassword, setCurrentPassword] = useState("");
