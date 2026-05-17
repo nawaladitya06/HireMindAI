@@ -4,11 +4,16 @@ import GitHub from "next-auth/providers/github";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { getDb } from "./db";
 import * as schema from "./db/schema";
+import { users, accounts, sessions } from "./db/schema";
 
 const db = getDb();
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db),
+  adapter: DrizzleAdapter(db, {
+    usersTable: users as any,
+    accountsTable: accounts as any,
+    sessionsTable: sessions as any,
+  }),
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
