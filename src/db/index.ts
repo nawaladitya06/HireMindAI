@@ -41,10 +41,20 @@ export function getDb() {
       }
 
       const queryResult = data.result?.[0];
-      const rows = queryResult?.rows || [];
+      const columns = queryResult?.columns || [];
+      const rawRows = queryResult?.rows || [];
+
+      // Map raw arrays back to column-mapped objects for Drizzle ORM
+      const rows = rawRows.map((row: any[]) => {
+        const obj: any = {};
+        columns.forEach((col: string, idx: number) => {
+          obj[col] = row[idx];
+        });
+        return obj;
+      });
 
       if (method === 'get') {
-        return { rows: rows[0] || [] };
+        return { rows: rows[0] ? [rows[0]] : [] };
       }
 
       return { rows };
