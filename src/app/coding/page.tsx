@@ -13,6 +13,7 @@ import {
 import { PROGRAMMING_LANGUAGES, cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
+import { LoadingScreen } from "@/components/ui/LoadingScreen";
 
 type PistonExecutionResult = {
   stdout?: string;
@@ -326,6 +327,9 @@ export default function CodingPage() {
            </GlassCard>
         </div>
       </div>
+      {isSubmitting && (
+        <LoadingScreen message="Executing test suite against hidden test cases..." />
+      )}
     </DashboardLayout>
   );
 }

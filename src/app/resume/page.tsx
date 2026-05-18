@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import { generateResumeQuestions } from "@/lib/gemini";
 import { useAppStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
+import { LoadingScreen } from "@/components/ui/LoadingScreen";
 
 interface ResumeUploadResponse {
   fileKey: string;
@@ -303,6 +304,9 @@ export default function ResumePage() {
           </div>
         )}
       </div>
+      {isUploading && (
+        <LoadingScreen message="Uploading & performing AI analysis on your resume..." />
+      )}
     </DashboardLayout>
   );
 }

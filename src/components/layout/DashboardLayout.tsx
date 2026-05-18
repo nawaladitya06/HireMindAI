@@ -6,6 +6,7 @@ import { TopBar } from "./TopBar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { LoadingScreen } from "../ui/LoadingScreen";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -15,7 +16,11 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children, title, subtitle, action }: DashboardLayoutProps) {
-  const { sidebarOpen } = useAppStore();
+  const { sidebarOpen, user } = useAppStore();
+
+  if (!user) {
+    return <LoadingScreen message="Authenticating secure workspace session..." />;
+  }
 
   return (
     <div className="min-h-screen bg-[#030303] text-foreground flex">

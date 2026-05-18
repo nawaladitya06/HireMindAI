@@ -14,6 +14,7 @@ import { useAppStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { generateInterviewQuestions } from "@/lib/gemini";
 import toast from "react-hot-toast";
+import { LoadingScreen } from "@/components/ui/LoadingScreen";
 
 export default function InterviewSetupPage() {
   const router = useRouter();
@@ -80,6 +81,10 @@ export default function InterviewSetupPage() {
       setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <LoadingScreen message="Analyzing role profile & generating custom interview questions..." />;
+  }
 
   return (
     <DashboardLayout 
