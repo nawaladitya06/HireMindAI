@@ -63,44 +63,32 @@ export default function ResumePage() {
       const formData = new FormData();
       formData.append("file", file);
 
-      // 1. Upload to R2 via our API
+      // Upload and parse the PDF
       const uploadRes = await fetch("/api/resume/upload", {
         method: "POST",
         body: formData,
       });
 
       if (!uploadRes.ok) throw new Error("Upload failed");
-      const { fileKey } = (await uploadRes.json()) as ResumeUploadResponse;
+      const { fileKey, parsedText } = await uploadRes.json();
 
-      // 2. In a real production app, we'd extract text from the PDF.
-      // Since PDF parsing is complex in Edge, we'll simulate the text extraction
-      // but use a REAL AI call for the analysis.
-      const mockExtractedText = "Senior Frontend Engineer with 6 years of experience in React, Next.js, and TypeScript...";
+      // Ensure we have text
+      if (!parsedText || parsedText.length < 50) {
+         throw new Error("Could not extract enough text from the resume.");
+      }
       
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8787"}/interview/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          role: "Senior Frontend Engineer",
-          experienceLevel: "senior",
-          techStack: ["React", "Next.js", "TypeScript", "Node.js", "AWS"],
-          resumeText: mockExtractedText,
-          count: 5
-        }),
-      });
-
-      if (!response.ok) throw new Error("AI Analysis failed");
-      const genQuestions = (await response.json()) as AIQuestion[];
+      // Call Gemini Server Action instead of external fetch
+      const genQuestions = await generateResumeQuestions(parsedText, "Candidate Role");
 
       setAnalysis({
         name: "Candidate Profile",
-        role: "Senior Frontend Engineer",
-        skills: ["React", "Next.js", "TypeScript", "Node.js", "AWS"],
-        experience: "6 Years",
+        role: "Software Professional",
+        skills: ["Extracted from resume", "Communication", "Problem Solving"],
+        experience: "Based on Resume",
         score: 85
       });
       
-      setQuestions(genQuestions);
+      setQuestions(genQuestions as any);
       toast.success("AI Analysis Complete!");
     } catch (err) {
       console.error(err);

@@ -1,22 +1,21 @@
 "use server";
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Question, Feedback } from "./store";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+import { callAIProvider } from "./ai-provider";
 
 export async function generateInterviewQuestions(params: {
   role: string;
   experienceLevel: string;
   techStack: string[];
+  resumeText?: string;
   count?: number;
 }) {
-  const { role, experienceLevel, techStack, count = 5 } = params;
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const { role, experienceLevel, techStack, resumeText, count = 5 } = params;
 
   const prompt = `
     You are an elite technical interviewer. Generate ${count} interview questions for a ${experienceLevel} ${role} role.
-    Target technologies: ${techStack.join(", ")}.
+    ${techStack.length > 0 ? `Target technologies: ${techStack.join(", ")}.` : ""}
+    ${resumeText ? `Base the questions ON THIS CANDIDATE'S RESUME: ${resumeText}` : ""}
     
     Return the result as a JSON array of objects with the following structure:
     {
@@ -26,12 +25,10 @@ export async function generateInterviewQuestions(params: {
       "difficulty": "easy" | "medium" | "hard"
     }
     
-    Ensure the questions are challenging and realistic. Provide ONLY the JSON.
+    Ensure the questions are challenging and realistic. Provide ONLY the JSON. Do not include markdown code blocks.
   `;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
+  const text = await callAIProvider(prompt);
   const jsonStr = text.replace(/```json|```/g, "").trim();
   
   return JSON.parse(jsonStr) as Question[];
@@ -43,7 +40,6 @@ export async function evaluateInterview(params: {
   questions: Array<{ id: string; text: string; answer: string; type: string }>;
 }) {
   const { role, experienceLevel, questions } = params;
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const prompt = `
     Evaluate the following interview performance for a ${experienceLevel} ${role} role.
@@ -61,13 +57,32 @@ export async function evaluateInterview(params: {
     - weaknesses (array of strings)
     - improvements (array of strings)
     
-    Return ONLY a JSON object.
+    Return ONLY a JSON object. Do not include markdown code blocks.
   `;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
+  const text = await callAIProvider(prompt);
   const jsonStr = text.replace(/```json|```/g, "").trim();
   
   return JSON.parse(jsonStr) as Feedback;
+}
+
+export async function generateFollowUpQuestionAction(
+  originalQuestion: string,
+  answer: string,
+  role: string
+) {
+  const prompt = `
+    You are an elite technical interviewer for a ${role} role.
+    
+    Original Question: ${originalQuestion}
+    Candidate's Answer: ${answer}
+    
+    The candidate's answer might be incomplete, vague, or lack depth. 
+    Ask ONE challenging follow-up question to probe deeper into their reasoning, technical depth, or ask for a specific example.
+    
+    Return ONLY the text of the follow-up question.
+  `;
+
+  const text = await callAIProvider(prompt);
+  return text.trim();
 }

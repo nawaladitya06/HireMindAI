@@ -49,7 +49,7 @@ export default function SettingsPage() {
   // Billing Interval State
   const [billingInterval, setBillingInterval] = useState<'monthly' | 'yearly'>('monthly');
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
@@ -57,17 +57,31 @@ export default function SettingsPage() {
         return;
       }
       
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      const uploadToast = toast.loading("Uploading avatar...");
+      
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        
+        const res = await fetch("/api/user/avatar", {
+          method: "POST",
+          body: formData,
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) throw new Error(data.error || "Upload failed");
+        
         if (user) {
           setUser({
             ...user,
-            image: reader.result as string
+            image: data.url
           });
-          toast.success("Avatar updated successfully!", { icon: "📸" });
+          toast.success("Avatar updated successfully!", { id: uploadToast, icon: "📸" });
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        toast.error("Failed to upload avatar", { id: uploadToast });
+      }
     }
   };
 

@@ -21,32 +21,45 @@ export default function RegisterPage() {
   const router = useRouter();
   const { setUser, setAuthenticated } = useAppStore();
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API registration
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      setUser({
-        id: `user-${Date.now()}`,
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        plan: "free",
-        joinedAt: new Date().toISOString(),
-        interviewsCompleted: 0,
-        avgScore: 0,
-        role: "New User",
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      setAuthenticated(true);
-      if (typeof document !== "undefined") {
-        document.cookie = "candidra-logged-in=true; path=/; max-age=604800; SameSite=Lax";
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Registration failed");
+        setIsLoading(false);
+        return;
       }
 
-      toast.success("Account created successfully! Welcome to Candidra.");
-      router.push("/dashboard");
-    }, 1500);
+      // Automatically sign in after successful registration
+      const signInRes = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (signInRes?.error) {
+        toast.error("Account created, but sign in failed. Please login manually.");
+        router.push("/login");
+      } else {
+        toast.success("Account created successfully! Welcome to Candidra.");
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

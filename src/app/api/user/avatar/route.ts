@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getDb } from "@/db";
-import { resumes } from "@/db/schema";
+import { users } from "@/db/schema";
 import { getStorageProvider } from "@/lib/storage";
-import pdfParse from "pdf-parse";
+import { eq } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -20,35 +20,21 @@ export async function POST(req: NextRequest) {
 
   try {
     const storage = getStorageProvider();
-    const path = `resumes/${session.user.id}`;
+    const path = `avatars/${session.user.id}`;
     
     // Upload file
-    const { url, key } = await storage.uploadFile(file, path);
-
-    // Extract text from PDF
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const pdfData = await pdfParse(buffer);
-    const parsedText = pdfData.text;
+    const { url } = await storage.uploadFile(file, path);
 
     // Save metadata to D1
     const db = getDb();
-    await db.insert(resumes).values({
-      id: crypto.randomUUID(),
-      userId: session.user.id,
-      fileName: file.name,
-      fileKey: key,
-      fileUrl: url,
-      parsedText: parsedText,
-      createdAt: new Date().toISOString(),
-    });
+    await db.update(users).set({
+      image: url
+    }).where(eq(users.id, session.user.id));
     
     return NextResponse.json({ 
       success: true, 
-      fileKey: key,
-      fileUrl: url,
-      parsedText: parsedText,
-      message: "Resume uploaded and parsed successfully" 
+      url: url,
+      message: "Avatar updated successfully" 
     });
   } catch (error) {
     console.error("Upload Error:", error);

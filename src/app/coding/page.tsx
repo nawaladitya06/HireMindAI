@@ -107,11 +107,43 @@ export default function CodingPage() {
     setIsSubmitting(true);
     toast.loading("Validating against hidden test cases...", { id: "submit" });
     
-    setTimeout(() => {
+    try {
+      // Execute final code
+      const { executeCode } = await import("@/lib/coding-actions");
+      const result = await executeCode({
+        source_code: code,
+        language: (selectedLang as any).pistonLang,
+        version: (selectedLang as any).pistonVersion,
+        stdin: ""
+      });
+
+      const isSuccess = result.stdout && !result.stderr;
+      
+      // Save submission
+      await fetch("/api/coding/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          language: selectedLang.id,
+          code,
+          status: isSuccess ? "passed" : "failed",
+          runtime: parseFloat(result.time || "0"),
+          memory: parseFloat(result.memory || "0"),
+          score: isSuccess ? 100 : 0
+        }),
+      });
+
+      if (isSuccess) {
+        setIsSolved(true);
+        toast.success("Solution submitted successfully! +100 Points", { id: "submit" });
+      } else {
+        toast.error("Submission failed hidden tests.", { id: "submit" });
+      }
+    } catch (error) {
+      toast.error("Failed to submit solution.", { id: "submit" });
+    } finally {
       setIsSubmitting(false);
-      setIsSolved(true);
-      toast.success("Solution submitted successfully! +100 Points", { id: "submit" });
-    }, 3000);
+    }
   };
 
   const resetCode = () => {

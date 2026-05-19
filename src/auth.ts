@@ -32,17 +32,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) return null;
+        if (!credentials?.email || !credentials?.password) return null;
         const { email, password } = credentials;
 
-        if (email === "nawaladitya06@gmail.com" && password === "adpnawal06") {
-          return {
-            id: "admin-user-id",
-            name: "Aditya Nawal (Admin)",
-            email: "nawaladitya06@gmail.com",
-            image: "https://lh3.googleusercontent.com/a/default-user",
-            role: "admin",
-          };
+        const [user] = await db.select().from(users).where(require("drizzle-orm").eq(users.email, email as string)).limit(1);
+
+        if (user && user.password) {
+          const bcrypt = require("bcryptjs");
+          const isValid = await bcrypt.compare(password as string, user.password);
+          if (isValid) {
+            return {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              image: user.image,
+              role: "user", // Customize later if needed
+            };
+          }
         }
 
         return null;

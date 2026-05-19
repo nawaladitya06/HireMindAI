@@ -12,7 +12,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { cn, formatDuration } from "@/lib/utils";
 import toast from "react-hot-toast";
-import { evaluateInterview } from "@/lib/gemini";
+import { evaluateInterview, generateFollowUpQuestion } from "@/lib/gemini";
 
 interface SpeechRecognitionEvent extends Event {
   resultIndex: number;
@@ -50,6 +50,7 @@ export default function InterviewRoomPage() {
   const [timeLeft, setTimeLeft] = useState(0); // Total seconds
   const [isPaused, setIsPaused] = useState(false);
   const [isEvaluating, setIsEvaluating] = useState(false);
+  const [isGeneratingFollowUp, setIsGeneratingFollowUp] = useState(false);
   const [micPermission, setMicPermission] = useState<"granted" | "denied" | "prompt">("prompt");
 
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -172,9 +173,37 @@ export default function InterviewRoomPage() {
       answer: finalAnswer
     };
     
+    // Check if we should ask a follow-up (e.g., if it's the first time and not already a follow-up)
+    const isFollowUp = currentQuestion.text.startsWith("Follow-up:");
+    // Simple heuristic: Ask follow-ups for technical or behavioral questions randomly 50% of the time
+    const shouldAskFollowUp = !isFollowUp && Math.random() > 0.5;
+
+    if (shouldAskFollowUp && currentQuestionIndex < updatedQuestions.length) {
+      setIsGeneratingFollowUp(true);
+      toast.loading("AI is thinking of a follow-up...", { id: "followup" });
+      try {
+        const followUpText = await generateFollowUpQuestion(
+          currentQuestion.text,
+          finalAnswer,
+          currentInterview.role
+        );
+        
+        updatedQuestions.splice(currentQuestionIndex + 1, 0, {
+          id: crypto.randomUUID(),
+          text: `Follow-up: ${followUpText}`,
+          type: currentQuestion.type,
+        });
+        toast.success("Follow-up generated", { id: "followup" });
+      } catch (err) {
+        toast.dismiss("followup");
+      } finally {
+        setIsGeneratingFollowUp(false);
+      }
+    }
+
     updateInterview(currentInterview.id, { questions: updatedQuestions });
 
-    if (currentQuestionIndex < (currentInterview.questions?.length || 0) - 1) {
+    if (currentQuestionIndex < updatedQuestions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
       setTranscript("");
       setInterimTranscript("");
@@ -194,7 +223,7 @@ export default function InterviewRoomPage() {
           }))
         });
 
-        updateInterview(currentInterview.id, {
+        const updateData = {
           status: "completed",
           score: evaluation.overallScore,
           communicationScore: evaluation.communicationScore,
@@ -203,7 +232,20 @@ export default function InterviewRoomPage() {
           duration: timeLeft,
           completedAt: new Date().toISOString(),
           feedback: evaluation
+        };
+
+        // Update DB
+        await fetch("/api/interview/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: currentInterview.id,
+            ...updateData,
+            questions: updatedQuestions
+          }),
         });
+
+        updateInterview(currentInterview.id, updateData as any);
 
         toast.success("Evaluation complete!", { id: "eval" });
         router.push(`/reports/${currentInterview.id}`);
@@ -430,13 +472,13 @@ export default function InterviewRoomPage() {
                  ))}
                </div>
 
-               <div className="mt-8 pt-8 border-t border-white/5 space-y-3">
+                <div className="mt-8 pt-8 border-t border-white/5 space-y-3">
                   <button 
-                    disabled={!transcript && !isListening}
+                    disabled={(!transcript && !isListening) || isGeneratingFollowUp}
                     onClick={handleNext}
                     className="w-full btn-primary py-4 flex items-center justify-center gap-3 text-sm font-black group"
                   >
-                    {currentQuestionIndex === (currentInterview.questions?.length || 0) - 1 ? "Complete Session" : "Next Question"} 
+                    {isGeneratingFollowUp ? "Thinking..." : currentQuestionIndex === (currentInterview.questions?.length || 0) - 1 ? "Complete Session" : "Next Question"} 
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <button className="w-full bg-white/5 hover:bg-white/10 border border-white/5 py-4 rounded-xl text-xs font-black text-slate-400 uppercase tracking-widest transition-all">

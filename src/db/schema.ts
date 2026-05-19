@@ -5,7 +5,11 @@ export const users = sqliteTable('users', {
   name: text('name'),
   email: text('email').notNull().unique(),
   emailVerified: integer('emailVerified', { mode: 'timestamp' }),
+  password: text('password'),
   image: text('image'),
+  plan: text('plan').notNull().default('free'),
+  interviewsCompleted: integer('interviewsCompleted').notNull().default(0),
+  codingRuns: integer('codingRuns').notNull().default(0),
   createdAt: integer('createdAt', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 });
 
@@ -87,5 +91,26 @@ export const resumes = sqliteTable('resumes', {
   fileKey: text('fileKey').notNull(),
   fileUrl: text('fileUrl').notNull(),
   parsedText: text('parsedText'),
+  createdAt: text('createdAt').notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const uploadedFiles = sqliteTable('uploaded_files', {
+  id: text('id').primaryKey(),
+  userId: text('userId').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  type: text('type').notNull(), // 'report', 'pdf', 'portfolio', 'resume'
+  fileName: text('fileName').notNull(),
+  fileUrl: text('fileUrl').notNull(),
+  fileKey: text('fileKey').notNull(),
+  createdAt: text('createdAt').notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const subscriptions = sqliteTable('subscriptions', {
+  id: text('id').primaryKey(),
+  userId: text('userId').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  stripeCustomerId: text('stripeCustomerId'),
+  stripeSubscriptionId: text('stripeSubscriptionId'),
+  plan: text('plan').notNull(),
+  status: text('status').notNull(),
+  currentPeriodEnd: integer('currentPeriodEnd', { mode: 'timestamp' }),
   createdAt: text('createdAt').notNull().$defaultFn(() => new Date().toISOString()),
 });

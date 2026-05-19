@@ -69,6 +69,13 @@ export default function InterviewSetupPage() {
         }))
       };
 
+      // Save to D1
+      await fetch("/api/interview/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newInterview),
+      });
+
       addInterview(newInterview);
       setCurrentInterview(newInterview);
       

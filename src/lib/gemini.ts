@@ -1,4 +1,4 @@
-import { generateInterviewQuestions as aiGenerateQuestions, evaluateInterview as aiEvaluateInterview } from "./ai-actions";
+import { generateInterviewQuestions as aiGenerateQuestions, evaluateInterview as aiEvaluateInterview, generateFollowUpQuestionAction } from "./ai-actions";
 import { Feedback, Question } from "./store";
 
 export async function generateInterviewQuestions(params: {
@@ -16,7 +16,7 @@ export async function generateFollowUpQuestion(
   answer: string,
   role: string
 ): Promise<string> {
-  return "Can you provide a specific example from your experience?";
+  return generateFollowUpQuestionAction(originalQuestion, answer, role);
 }
 
 export async function evaluateInterview(params: {
