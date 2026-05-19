@@ -53,7 +53,7 @@ export default function PricingPage() {
       </main>
 
       <footer className="py-12 border-t border-white/5 text-center text-slate-600 text-xs relative z-10">
-         © 2026 HireMind AI Inc.
+         © 2026 Candidra AI Inc.
       </footer>
     </div>
   );

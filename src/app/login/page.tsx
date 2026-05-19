@@ -31,7 +31,7 @@ export default function LoginPage() {
       if (res?.error) {
         toast.error("Invalid email or password.");
       } else {
-        toast.success("Welcome back to HireMind AI!");
+        toast.success("Welcome back to Candidra AI!");
         router.push("/dashboard");
       }
     } catch (err) {

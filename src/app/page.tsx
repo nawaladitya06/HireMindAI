@@ -26,7 +26,7 @@ const TESTIMONIALS = [
   {
     name: "Amara Okeke",
     role: "Engineering Manager",
-    content: "We use HireMind to help our internal candidates prepare for level-up interviews. The role-specific questions are perfectly calibrated.",
+    content: "We use Candidra to help our internal candidates prepare for level-up interviews. The role-specific questions are perfectly calibrated.",
     avatar: "A"
   }
 ];
@@ -86,7 +86,7 @@ export default function Home() {
            <div className="container-custom relative z-10">
               <div className="text-center max-w-3xl mx-auto mb-24">
                  <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter">Proven <span className="text-slate-500">Results.</span></h2>
-                 <p className="text-xl text-slate-400 font-medium">Join top-tier engineers who used HireMind to secure offers.</p>
+                 <p className="text-xl text-slate-400 font-medium">Join top-tier engineers who used Candidra to secure offers.</p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -162,7 +162,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-xl">
                     <Brain className="w-6 h-6 text-white" />
                   </div>
-                  <span className="text-2xl font-black text-white tracking-tighter">HireMind AI</span>
+                  <span className="text-2xl font-black text-white tracking-tighter">Candidra AI</span>
                </Link>
                <p className="text-slate-400 leading-relaxed mb-8 max-w-sm font-medium">
                   The world's most advanced AI interview simulator. Built by engineers, for engineers.
@@ -213,7 +213,7 @@ export default function Home() {
           </div>
           
           <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">© 2026 HireMind AI Inc. All rights reserved.</p>
+             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">© 2026 Candidra AI Inc. All rights reserved.</p>
              <div className="flex gap-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
                 <Link href="/privacy" className="hover:text-slate-400 transition-colors">Privacy</Link>
                 <Link href="/terms" className="hover:text-slate-400 transition-colors">Terms</Link>

@@ -46,7 +46,7 @@ export default function SecurityPage() {
               <section>
                 <h2 className="text-2xl font-black text-white tracking-tighter mb-4">5. Vulnerability Disclosure</h2>
                 <p className="text-slate-400 leading-relaxed">
-                  If you believe you've discovered a vulnerability, we encourage you to report it immediately. We review all reports and will do our best to address issues rapidly. Contact our security team at <a href="mailto:security@hiremind.ai" className="text-purple-400 hover:text-purple-300">security@hiremind.ai</a>.
+                  If you believe you've discovered a vulnerability, we encourage you to report it immediately. We review all reports and will do our best to address issues rapidly. Contact our security team at <a href="mailto:security@candidra.ai" className="text-purple-400 hover:text-purple-300">security@candidra.ai</a>.
                 </p>
               </section>
            </div>

@@ -6,13 +6,13 @@ import { StoreSync } from "@/components/auth/StoreSync";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
 export const metadata: Metadata = {
-  title: "HireMind AI — Ace Your Next Interview",
+  title: "Candidra AI — Ace Your Next Interview",
   description:
     "The most advanced AI-powered interview preparation platform. Practice with realistic AI interviews, get instant feedback, and land your dream job.",
-  keywords: ["AI interview prep", "job interview practice", "technical interview", "coding interview", "HireMind"],
-  authors: [{ name: "HireMind AI" }],
+  keywords: ["AI interview prep", "job interview practice", "technical interview", "coding interview", "Candidra"],
+  authors: [{ name: "Candidra AI" }],
   openGraph: {
-    title: "HireMind AI — Ace Your Next Interview",
+    title: "Candidra AI — Ace Your Next Interview",
     description: "AI-powered interview preparation platform with voice interviews, coding rounds, and personalized feedback.",
     type: "website",
   },

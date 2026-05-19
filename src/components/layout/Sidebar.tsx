@@ -57,7 +57,7 @@ export function Sidebar() {
               <Brain className="w-4 h-4 text-white" />
             </div>
             <span className="text-lg font-black text-white tracking-tighter whitespace-nowrap">
-              HireMind
+              Candidra
             </span>
           </Link>
         </div>

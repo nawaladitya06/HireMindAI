@@ -47,7 +47,7 @@ export default function ContactPage() {
                    transition={{ delay: 0.1 }}
                    className="text-xl text-slate-400 font-medium leading-relaxed max-w-md mb-12"
                  >
-                   Whether you are looking to deploy HireMind for your engineering team or just have a question, we are here to help.
+                   Whether you are looking to deploy Candidra for your engineering team or just have a question, we are here to help.
                  </motion.p>
 
                  <div className="space-y-6">
@@ -55,13 +55,13 @@ export default function ContactPage() {
                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
                           <Mail className="w-5 h-5 text-cyan-400" />
                        </div>
-                       hello@hiremind.ai
+                       hello@candidra.ai
                     </div>
                     <div className="flex items-center gap-4 text-slate-300 font-bold">
                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
                           <MessageSquare className="w-5 h-5 text-blue-400" />
                        </div>
-                       Press inquiries: press@hiremind.ai
+                       Press inquiries: press@candidra.ai
                     </div>
                     <div className="flex items-center gap-4 text-slate-300 font-bold">
                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">

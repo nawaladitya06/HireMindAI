@@ -41,10 +41,10 @@ export default function RegisterPage() {
       });
       setAuthenticated(true);
       if (typeof document !== "undefined") {
-        document.cookie = "hiremind-logged-in=true; path=/; max-age=604800; SameSite=Lax";
+        document.cookie = "candidra-logged-in=true; path=/; max-age=604800; SameSite=Lax";
       }
 
-      toast.success("Account created successfully! Welcome to HireMind.");
+      toast.success("Account created successfully! Welcome to Candidra.");
       router.push("/dashboard");
     }, 1500);
   };
@@ -64,7 +64,7 @@ export default function RegisterPage() {
                <Brain className="w-9 h-9 text-white" />
             </div>
             <h1 className="text-5xl font-bold text-white leading-tight">
-               Build your future <br /> with <span className="gradient-text">HireMind AI</span>.
+               Build your future <br /> with <span className="gradient-text">Candidra AI</span>.
             </h1>
             <p className="text-lg text-slate-400 max-w-md">
                The platform used by top engineers to practice, refine, and master the interview process.

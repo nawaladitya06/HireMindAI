@@ -17,7 +17,7 @@ export default function PrivacyPage() {
            <div className="space-y-12">
               <section>
                 <h2 className="text-2xl font-black text-white tracking-tighter mb-4">1. Introduction</h2>
-                <p className="text-slate-400 leading-relaxed">At HireMind AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our AI interview simulation platform.</p>
+                <p className="text-slate-400 leading-relaxed">At Candidra AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our AI interview simulation platform.</p>
               </section>
 
               <section>
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
 
               <section>
                 <h2 className="text-2xl font-black text-white tracking-tighter mb-4">5. Contact Us</h2>
-                <p className="text-slate-400 leading-relaxed">If you have questions or comments about this Privacy Policy, please contact us at: <a href="mailto:privacy@hiremind.ai" className="text-purple-400 hover:text-purple-300">privacy@hiremind.ai</a></p>
+                <p className="text-slate-400 leading-relaxed">If you have questions or comments about this Privacy Policy, please contact us at: <a href="mailto:privacy@candidra.ai" className="text-purple-400 hover:text-purple-300">privacy@candidra.ai</a></p>
               </section>
            </div>
         </div>

@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server"
 
 export default async function middleware(req: NextRequest) {
   const isLoggedIn = 
-    req.cookies.has("hiremind-logged-in") || 
+    req.cookies.has("candidra-logged-in") || 
     req.cookies.has("authjs.session-token") || 
     req.cookies.has("__Secure-authjs.session-token") ||
     req.cookies.has("next-auth.session-token") ||

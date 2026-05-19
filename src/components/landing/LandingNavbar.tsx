@@ -42,7 +42,7 @@ export function LandingNavbar() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)] group-hover:scale-105 transition-transform">
             <Brain className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-black text-white tracking-tighter hidden md:block">HireMind AI</span>
+          <span className="text-xl font-black text-white tracking-tighter hidden md:block">Candidra AI</span>
         </Link>
 
         {/* Desktop Links */}
@@ -107,7 +107,7 @@ export function LandingNavbar() {
               ))}
               <hr className="border-white/10" />
               <Link href="/login" className="text-slate-400 font-bold text-lg">Sign In</Link>
-              <Link href="/register" className="btn-primary py-5 text-lg">Join HireMind AI</Link>
+              <Link href="/register" className="btn-primary py-5 text-lg">Join Candidra AI</Link>
             </div>
           </motion.div>
         )}

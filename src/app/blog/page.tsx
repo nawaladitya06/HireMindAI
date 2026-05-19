@@ -8,7 +8,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 const POSTS = [
   { category: "Engineering", title: "How we built a real-time LLM pipeline with under 200ms latency", date: "May 10, 2026", readTime: "8 min read" },
   { category: "Interviews", title: "The 5 most common system design anti-patterns", date: "April 28, 2026", readTime: "12 min read" },
-  { category: "Company", title: "HireMind secures Series A to redefine technical hiring", date: "April 15, 2026", readTime: "4 min read" },
+  { category: "Company", title: "Candidra secures Series A to redefine technical hiring", date: "April 15, 2026", readTime: "4 min read" },
   { category: "Guides", title: "Mastering the behavioral interview: A data-driven approach", date: "March 30, 2026", readTime: "15 min read" },
 ];
 
@@ -27,7 +27,7 @@ export default function BlogPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-8 leading-[0.9]"
               >
-                HireMind <span className="text-slate-500">Journal.</span>
+                Candidra <span className="text-slate-500">Journal.</span>
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}

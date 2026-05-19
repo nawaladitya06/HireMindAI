@@ -4,4 +4,4 @@ Disallow: /dashboard/
 Disallow: /interview/room/
 Disallow: /api/
 
-Sitemap: https://hiremind.ai/sitemap.xml
+Sitemap: https://candidra.ai/sitemap.xml

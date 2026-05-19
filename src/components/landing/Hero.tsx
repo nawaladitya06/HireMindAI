@@ -27,7 +27,7 @@ export function Hero() {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] font-black uppercase tracking-[0.2em] text-slate-300 mb-8 shadow-2xl backdrop-blur-md"
             >
               <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-              <span>HireMind AI 2.0 is Live</span>
+              <span>Candidra AI 2.0 is Live</span>
             </motion.div>
 
             <motion.h1

@@ -17,7 +17,7 @@ export function Footer() {
     formData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "");
     formData.append("email", email);
     formData.append("subject", "New Newsletter Subscription");
-    formData.append("from_name", "HireMind AI");
+    formData.append("from_name", "Candidra AI");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -47,7 +47,7 @@ export function Footer() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center">
                 <Brain className="w-4 h-4 text-white" />
               </div>
-              <span className="text-lg font-black text-white tracking-tighter">HireMind AI</span>
+              <span className="text-lg font-black text-white tracking-tighter">Candidra AI</span>
             </Link>
             <p className="text-sm text-slate-500 leading-relaxed">
               Empowering engineers to master technical interviews through intelligent AI-driven simulations and real-time feedback.
@@ -103,7 +103,7 @@ export function Footer() {
         </div>
 
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} HireMind AI. All rights reserved.</p>
+          <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} Candidra AI. All rights reserved.</p>
           <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
             <span>Made with 💜 for engineers</span>
           </div>

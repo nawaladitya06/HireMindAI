@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const TIPS = [
   "Analyzing target industry benchmarks...",
-  "Powering up HireMind AI voice engine...",
+  "Powering up Candidra AI voice engine...",
   "Calibrating technical evaluation metrics...",
   "Readying real-time behavioral analytics...",
   "Tailoring custom question database...",
@@ -59,7 +59,7 @@ export function LoadingScreen({ message }: { message?: string }) {
 
         {/* Brand Name */}
         <h2 className="text-2xl font-black text-white tracking-tighter mb-1">
-          HireMind <span className="gradient-text">AI</span>
+          Candidra <span className="gradient-text">AI</span>
         </h2>
         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] mb-8">
           Ace Your Next Interview
