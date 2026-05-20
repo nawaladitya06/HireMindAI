@@ -25,7 +25,7 @@ export function LoadingScreen({ message }: { message?: string }) {
   return (
     <div className="fixed inset-0 bg-[#040406] z-[9999] flex flex-col items-center justify-center overflow-hidden">
       {/* Sleek Dynamic Background Blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/10 blur-[120px] animate-pulse" />
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px] animate-pulse" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-600/10 blur-[120px] animate-pulse" />
       
       {/* Grid Overlay */}
@@ -36,7 +36,7 @@ export function LoadingScreen({ message }: { message?: string }) {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="flex flex-col items-center text-center p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 backdrop-blur-2xl shadow-2xl glow-purple max-w-sm w-full mx-6 relative z-10"
+        className="flex flex-col items-center text-center p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 backdrop-blur-2xl shadow-2xl brutal-shadow max-w-sm w-full mx-6 relative z-10"
       >
         {/* Pulsating Glowing Brain Logo */}
         <div className="relative mb-8">
@@ -50,9 +50,9 @@ export function LoadingScreen({ message }: { message?: string }) {
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur-xl opacity-30"
+            className="absolute -inset-4 bg-primary text-black rounded-2xl blur-xl opacity-30"
           />
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg relative border border-white/20">
+          <div className="w-16 h-16 rounded-2xl bg-primary text-black border-2 border-black flex items-center justify-center shadow-lg relative border border-white/20">
             <Brain className="w-9 h-9 text-white animate-pulse" />
           </div>
         </div>
@@ -80,7 +80,7 @@ export function LoadingScreen({ message }: { message?: string }) {
               cx="24"
               cy="24"
               r="20"
-              className="stroke-purple-500"
+              className="stroke-primary"
               strokeWidth="3"
               fill="transparent"
               strokeDasharray="125"

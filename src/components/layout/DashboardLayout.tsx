@@ -27,7 +27,7 @@ export function DashboardLayout({ children, title, subtitle, action }: Dashboard
       {/* Dynamic Background Elements */}
       <div className="fixed inset-0 grid-pattern opacity-[0.15] pointer-events-none" />
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden">
-         <div className="absolute top-[-20%] left-[20%] w-[50%] h-[50%] rounded-full bg-purple-600/5 blur-[120px]" />
+         <div className="absolute top-[-20%] left-[20%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px]" />
          <div className="absolute bottom-[-20%] right-[10%] w-[40%] h-[40%] rounded-full bg-blue-600/5 blur-[120px]" />
       </div>
 

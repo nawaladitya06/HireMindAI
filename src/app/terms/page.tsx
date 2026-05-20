@@ -4,7 +4,7 @@ import { LandingNavbar } from "@/components/landing/LandingNavbar";
 
 export default function TermsPage() {
   return (
-    <div className="relative min-h-screen bg-[#030303] selection:bg-purple-500/30">
+    <div className="relative min-h-screen bg-[#030303] selection:bg-primary/30">
       <LandingNavbar />
       
       <main className="pt-40 pb-24 relative overflow-hidden">
@@ -37,7 +37,7 @@ export default function TermsPage() {
 
               <section>
                 <h2 className="text-2xl font-black text-white tracking-tighter mb-4">5. Contact Us</h2>
-                <p className="text-slate-400 leading-relaxed">If you have any questions about these Terms, please contact us at: <a href="mailto:legal@candidra.ai" className="text-purple-400 hover:text-purple-300">legal@candidra.ai</a></p>
+                <p className="text-slate-400 leading-relaxed">If you have any questions about these Terms, please contact us at: <a href="mailto:legal@candidra.ai" className="text-primary hover:text-white">legal@candidra.ai</a></p>
               </section>
            </div>
         </div>
