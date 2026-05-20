@@ -25,33 +25,26 @@ export function LandingNavbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center py-6 px-4 pointer-events-none">
-      <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={cn(
-          "flex items-center justify-between w-full max-w-[1200px] px-6 py-4 rounded-full transition-all duration-700 pointer-events-auto",
-          scrolled 
-            ? "bg-black/50 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.5)]" 
-            : "bg-transparent border-transparent"
-        )}
-      >
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 flex justify-center py-4 px-4 transition-all duration-300",
+      scrolled ? "bg-black border-b-2 border-white/20" : "bg-transparent"
+    )}>
+      <div className="flex items-center justify-between w-full max-w-[1200px] px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)] group-hover:scale-105 transition-transform">
-            <img src="/icon.png" alt="Candidra AI Logo" className="w-full h-full object-cover" />
+          <div className="w-10 h-10 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-transform">
+            <Brain className="w-6 h-6 text-white" />
           </div>
-          <span className="text-xl font-black text-white tracking-tighter hidden md:block">Candidra AI</span>
+          <span className="text-xl font-black text-white tracking-tighter uppercase font-mono hidden md:block">Candidra AI</span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10 bg-white/[0.03] px-8 py-3 rounded-full border border-white/5">
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <Link 
               key={link.href} 
               href={link.href}
-              className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-white transition-colors"
+              className="text-xs font-black uppercase tracking-[0.1em] text-slate-400 hover:text-primary transition-colors font-mono"
             >
               {link.label}
             </Link>
@@ -61,16 +54,16 @@ export function LandingNavbar() {
         {/* CTA */}
         <div className="hidden md:flex items-center gap-6">
            {status === "authenticated" ? (
-             <Link href="/dashboard" className="btn-primary py-3 px-8 text-xs flex items-center gap-2 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
-                Dashboard <ArrowRight className="w-3.5 h-3.5" />
+             <Link href="/dashboard" className="btn-primary py-3 px-8 text-xs flex items-center gap-2">
+                Dashboard <ArrowRight className="w-4 h-4" />
              </Link>
            ) : (
              <>
-               <Link href="/login" className="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">
+               <Link href="/login" className="text-xs font-black uppercase tracking-widest text-white hover:text-primary transition-colors font-mono">
                   Sign In
                </Link>
-               <Link href="/register" className="btn-primary py-3 px-8 text-xs flex items-center gap-2 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
-                  Get Started <ArrowRight className="w-3.5 h-3.5" />
+               <Link href="/register" className="btn-primary py-3 px-8 text-xs flex items-center gap-2">
+                  Get Started <ArrowRight className="w-4 h-4" />
                </Link>
              </>
            )}
@@ -79,20 +72,20 @@ export function LandingNavbar() {
         {/* Mobile Toggle */}
         <button 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden text-white p-2"
+          className="md:hidden text-white p-2 border-2 border-white/20 bg-black brutal-shadow-sm"
         >
            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
-      </motion.div>
+      </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            className="fixed inset-x-4 top-24 z-50 bg-black/90 backdrop-blur-2xl p-8 rounded-3xl border border-white/10 shadow-2xl md:hidden pointer-events-auto"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-x-4 top-24 z-50 bg-black p-8 border-4 border-white/20 shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] md:hidden"
           >
             <div className="flex flex-col gap-8 text-center">
               {navLinks.map((link) => (
@@ -100,14 +93,14 @@ export function LandingNavbar() {
                   key={link.href} 
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-2xl font-black text-white tracking-tighter"
+                  className="text-xl font-black text-white uppercase font-mono tracking-tight hover:text-primary"
                 >
                   {link.label}
                 </Link>
               ))}
-              <hr className="border-white/10" />
-              <Link href="/login" className="text-slate-400 font-bold text-lg">Sign In</Link>
-              <Link href="/register" className="btn-primary py-5 text-lg">Join Candidra AI</Link>
+              <hr className="border-white/20" />
+              <Link href="/login" className="text-white font-bold font-mono uppercase">Sign In</Link>
+              <Link href="/register" className="btn-primary py-4 text-lg w-full text-center block">Join Candidra AI</Link>
             </div>
           </motion.div>
         )}

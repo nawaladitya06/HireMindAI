@@ -39,49 +39,49 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#030303] border-t border-white/5 pt-20 pb-10 relative z-10">
+    <footer className="bg-black border-t-2 border-white/20 pt-20 pb-10 relative z-10">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1 space-y-6">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center">
-                <Brain className="w-4 h-4 text-white" />
+              <div className="w-10 h-10 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] transition-transform">
+                <Brain className="w-6 h-6 text-black" />
               </div>
-              <span className="text-lg font-black text-white tracking-tighter">Candidra AI</span>
+              <span className="text-xl font-black text-white uppercase font-mono tracking-tighter">Candidra AI</span>
             </Link>
-            <p className="text-sm text-slate-500 leading-relaxed">
+            <p className="text-sm text-slate-400 font-mono leading-relaxed tracking-tight">
               Empowering engineers to master technical interviews through intelligent AI-driven simulations and real-time feedback.
             </p>
             <div className="flex items-center gap-4">
-              <Link href="#" className="p-2 rounded-lg bg-white/5 text-slate-500 hover:text-white transition-all"><Twitter className="w-4 h-4" /></Link>
-              <Link href="#" className="p-2 rounded-lg bg-white/5 text-slate-500 hover:text-white transition-all"><Github className="w-4 h-4" /></Link>
-              <Link href="#" className="p-2 rounded-lg bg-white/5 text-slate-500 hover:text-white transition-all"><Linkedin className="w-4 h-4" /></Link>
+              <Link href="#" className="p-2 border-2 border-white/20 bg-black text-white hover:bg-primary hover:text-black transition-colors brutal-shadow-sm"><Twitter className="w-4 h-4" /></Link>
+              <Link href="#" className="p-2 border-2 border-white/20 bg-black text-white hover:bg-primary hover:text-black transition-colors brutal-shadow-sm"><Github className="w-4 h-4" /></Link>
+              <Link href="#" className="p-2 border-2 border-white/20 bg-black text-white hover:bg-primary hover:text-black transition-colors brutal-shadow-sm"><Linkedin className="w-4 h-4" /></Link>
             </div>
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-xs font-black uppercase tracking-widest text-white">Platform</h4>
-            <ul className="space-y-4 text-sm text-slate-500">
-              <li><Link href="/interview/setup" className="hover:text-purple-400 transition-colors">AI Interviews</Link></li>
-              <li><Link href="/coding" className="hover:text-purple-400 transition-colors">Coding Playground</Link></li>
-              <li><Link href="/resume" className="hover:text-purple-400 transition-colors">Resume Analysis</Link></li>
-              <li><Link href="/reports" className="hover:text-purple-400 transition-colors">Performance Reports</Link></li>
+            <h4 className="text-xs font-black uppercase tracking-widest text-primary font-mono">Platform</h4>
+            <ul className="space-y-4 text-sm text-white font-bold font-mono">
+              <li><Link href="/interview/setup" className="hover:text-primary transition-colors">AI Interviews</Link></li>
+              <li><Link href="/coding" className="hover:text-primary transition-colors">Coding Playground</Link></li>
+              <li><Link href="/resume" className="hover:text-primary transition-colors">Resume Analysis</Link></li>
+              <li><Link href="/reports" className="hover:text-primary transition-colors">Performance Reports</Link></li>
             </ul>
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-xs font-black uppercase tracking-widest text-white">Company</h4>
-            <ul className="space-y-4 text-sm text-slate-500">
-              <li><Link href="#" className="hover:text-purple-400 transition-colors">About Us</Link></li>
-              <li><Link href="#" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
-              <li><Link href="#" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="#" className="hover:text-purple-400 transition-colors">Terms of Service</Link></li>
+            <h4 className="text-xs font-black uppercase tracking-widest text-primary font-mono">Company</h4>
+            <ul className="space-y-4 text-sm text-white font-bold font-mono">
+              <li><Link href="#" className="hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Pricing</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-xs font-black uppercase tracking-widest text-white">Newsletter</h4>
-            <p className="text-sm text-slate-500">Get the latest interview tips and platform updates.</p>
+            <h4 className="text-xs font-black uppercase tracking-widest text-primary font-mono">Newsletter</h4>
+            <p className="text-sm text-slate-400 font-mono tracking-tight">Get the latest interview tips and platform updates.</p>
             <form onSubmit={handleSubscribe} className="relative">
               <input 
                 type="email" 
@@ -89,23 +89,23 @@ export function Footer() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="Enter your email" 
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500/50 transition-all"
+                className="w-full bg-black border-2 border-white/20 px-4 py-3 text-sm text-white focus:outline-none focus:border-primary transition-colors brutal-shadow-sm font-mono"
               />
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-all disabled:opacity-50"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 border-2 border-black bg-primary text-black hover:bg-white transition-colors disabled:opacity-50"
               >
-                <Send className="w-3.5 h-3.5" />
+                <Send className="w-4 h-4" />
               </button>
             </form>
           </div>
         </div>
 
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} Candidra AI. All rights reserved.</p>
-          <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
-            <span>Made with 💜 for engineers</span>
+        <div className="pt-10 border-t-2 border-white/20 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-xs text-slate-500 font-mono font-bold uppercase">&copy; {new Date().getFullYear()} Candidra AI. All rights reserved.</p>
+          <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em] text-primary font-mono">
+            <span>Made with ⚡ for engineers</span>
           </div>
         </div>
       </div>

@@ -140,8 +140,8 @@ export default function DashboardPage() {
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={1}/>
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={1}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" vertical={false} />
@@ -172,9 +172,9 @@ export default function DashboardPage() {
                   itemStyle={{ color: '#fff', fontWeight: 700 }}
                 />
                 <Area 
-                  type="monotone" 
+                  type="step" 
                   dataKey="score" 
-                  stroke="#8b5cf6" 
+                  stroke="#000" 
                   strokeWidth={4}
                   fillOpacity={1} 
                   fill="url(#colorScore)" 
@@ -213,14 +213,14 @@ export default function DashboardPage() {
               ))}
            </div>
 
-           <div className="mt-12 p-6 rounded-2xl bg-purple-500/5 border border-purple-500/10 relative overflow-hidden group">
+           <div className="mt-12 p-6 bg-primary border-4 border-black relative overflow-hidden group brutal-shadow-sm">
               <div className="absolute top-0 right-0 p-2 opacity-10">
-                 <Brain className="w-12 h-12" />
+                 <Brain className="w-12 h-12 text-black" />
               </div>
-              <h4 className="text-[10px] font-black text-purple-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                 <Zap className="w-3 h-3 fill-current" /> AI Action Required
+              <h4 className="text-[10px] font-black text-black uppercase tracking-widest mb-3 flex items-center gap-2 font-mono">
+                 <Zap className="w-4 h-4 fill-current" /> AI Action Required
               </h4>
-              <p className="text-sm text-slate-300 leading-relaxed font-medium">
+              <p className="text-sm text-black font-bold leading-relaxed font-mono uppercase tracking-tight">
                 {stats.completed > 0 
                   ? "Your technical depth is strong, but focus on articulating system design tradeoffs for your next session."
                   : "Start your first interview session to get personalized AI feedback on your performance."}
@@ -238,19 +238,19 @@ export default function DashboardPage() {
            </Link>
         </div>
 
-        <GlassCard className="p-0 overflow-hidden border border-white/5">
+        <GlassCard className="p-0 overflow-hidden border-4 border-white/20">
            <div className="overflow-x-auto">
               <table className="w-full text-left">
-                 <thead>
-                    <tr className="bg-white/[0.02] border-b border-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-                       <th className="px-8 py-5">Position & Difficulty</th>
-                       <th className="px-8 py-5">Date</th>
-                       <th className="px-8 py-5">Session Duration</th>
-                       <th className="px-8 py-5">AI Score</th>
+                  <thead>
+                    <tr className="bg-black border-b-4 border-white/20 text-[10px] font-black uppercase tracking-[0.2em] text-white font-mono">
+                       <th className="px-8 py-5 border-r-2 border-white/20">Position & Difficulty</th>
+                       <th className="px-8 py-5 border-r-2 border-white/20">Date</th>
+                       <th className="px-8 py-5 border-r-2 border-white/20">Session Duration</th>
+                       <th className="px-8 py-5 border-r-2 border-white/20">AI Score</th>
                        <th className="px-8 py-5 text-right">Actions</th>
                     </tr>
                  </thead>
-                 <tbody className="divide-y divide-white/5">
+                 <tbody className="divide-y-2 divide-white/20 bg-[#111]">
                     {interviews.length > 0 ? (
                       interviews.map((interview, i) => (
                         <motion.tr 

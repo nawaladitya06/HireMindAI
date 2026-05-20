@@ -39,32 +39,24 @@ interface StatCardProps {
 }
 
 export function StatCard({ label, value, change, positive, icon, color = "purple" }: StatCardProps) {
-  const colorMap = {
-    purple: "text-purple-500 bg-purple-500/10",
-    blue: "text-blue-500 bg-blue-500/10",
-    cyan: "text-cyan-500 bg-cyan-500/10",
-    pink: "text-pink-500 bg-pink-500/10",
-    green: "text-green-500 bg-green-500/10",
-  };
-
   return (
     <GlassCard className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <div className={cn("p-2.5 rounded-xl", colorMap[color])}>
+        <div className="p-3 border-2 border-white/20 bg-primary text-black brutal-shadow-sm">
           {icon}
         </div>
         {change && (
           <span className={cn(
-            "text-[10px] font-bold px-2 py-0.5 rounded-full border",
-            positive ? "bg-green-500/10 border-green-500/20 text-green-400" : "bg-red-500/10 border-red-500/20 text-red-400"
+            "text-[10px] font-bold px-2 py-1 border-2 font-mono uppercase tracking-widest",
+            positive ? "bg-white text-black border-black" : "bg-red-500 text-white border-black"
           )}>
             {change}
           </span>
         )}
       </div>
       <div>
-        <p className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-1">{label}</p>
-        <h4 className="text-2xl font-bold text-white tracking-tight">{value}</h4>
+        <p className="text-xs font-bold text-slate-400 font-mono uppercase tracking-widest mb-1">{label}</p>
+        <h4 className="text-2xl font-black text-white font-mono uppercase tracking-tight">{value}</h4>
       </div>
     </GlassCard>
   );

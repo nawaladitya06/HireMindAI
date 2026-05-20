@@ -231,16 +231,15 @@ export default function SettingsPage() {
                </div>
             </GlassCard>
 
-            <GlassCard className="p-6 border-purple-500/20 bg-purple-500/5 relative overflow-hidden">
-               <div className="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/20 blur-[30px] rounded-full" />
-               <h4 className="text-xs font-black uppercase tracking-widest text-purple-400 flex items-center gap-2 mb-2">
+            <div className="p-6 border-2 border-primary bg-primary/10 relative overflow-hidden brutal-shadow">
+               <h4 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2 mb-2 font-mono">
                   <Sparkles className="w-3.5 h-3.5" /> Current Plan
                </h4>
-               <p className="text-2xl font-black text-white tracking-tighter mb-4 capitalize">{user?.plan || "Pro"} Tier</p>
-               <button onClick={() => setActiveTab('billing')} className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition-colors shadow-[0_0_20px_rgba(147,51,234,0.3)]">
+               <p className="text-2xl font-black text-white tracking-tighter mb-4 capitalize font-mono">{user?.plan || "Pro"} Tier</p>
+               <button onClick={() => setActiveTab('billing')} className="btn-primary w-full py-2.5 font-mono text-sm uppercase">
                   Change Plan
                </button>
-            </GlassCard>
+            </div>
          </div>
 
          {/* Right Column: Settings Form Panels */}
@@ -597,89 +596,89 @@ export default function SettingsPage() {
                    {/* Pricing Cards */}
                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {/* FREE PLAN */}
-                      <div className={`p-6 rounded-2xl border flex flex-col justify-between transition-all ${user?.plan === 'free' ? 'border-purple-500/50 bg-purple-500/5 shadow-[0_0_25px_rgba(147,51,234,0.1)]' : 'border-white/5 bg-white/5'}`}>
+                      <div className={`p-6 border-4 flex flex-col justify-between transition-all brutal-shadow-sm ${user?.plan === 'free' ? 'border-primary bg-primary/10' : 'border-white/20 bg-black'}`}>
                          <div>
-                            <h4 className="text-base font-bold text-white mb-1">Free Tier</h4>
-                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-4">Trial Plan</p>
-                            <p className="text-3xl font-black text-white tracking-tighter mb-4">$0</p>
+                            <h4 className="text-base font-bold text-white mb-1 font-mono uppercase">Free Tier</h4>
+                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-4 font-mono">Trial Plan</p>
+                            <p className="text-3xl font-black text-white tracking-tighter mb-4 font-mono">$0</p>
                             <ul className="space-y-3 mb-6">
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> 1 AI Interview
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> 1 AI Interview
                                </li>
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Basic Score metrics
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Basic Score metrics
                                </li>
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> 5 Coding submissions
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> 5 Coding submissions
                                </li>
                             </ul>
                          </div>
                          <button 
                            onClick={() => handlePlanUpgrade('free')}
                            disabled={user?.plan === 'free'}
-                           className={`w-full py-2.5 rounded-xl font-bold text-xs transition-colors ${user?.plan === 'free' ? 'bg-purple-500/20 text-purple-400 cursor-default border border-purple-500/30' : 'bg-white/5 hover:bg-white/10 text-white'}`}
+                           className={`w-full py-2.5 border-2 font-bold text-xs font-mono uppercase tracking-widest transition-colors ${user?.plan === 'free' ? 'bg-primary text-black border-black cursor-default' : 'bg-black text-white border-white/20 hover:bg-white hover:text-black'}`}
                          >
                             {user?.plan === 'free' ? "Active Plan" : "Downgrade"}
                          </button>
                       </div>
 
                       {/* PRO PLAN */}
-                      <div className={`p-6 rounded-2xl border flex flex-col justify-between relative transition-all ${user?.plan === 'pro' || !user?.plan ? 'border-purple-500/70 bg-purple-500/10 shadow-[0_0_35px_rgba(147,51,234,0.15)] scale-105' : 'border-white/5 bg-white/5'}`}>
-                         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">Most Popular</div>
+                      <div className={`p-6 border-4 flex flex-col justify-between relative transition-all brutal-shadow-sm ${user?.plan === 'pro' || !user?.plan ? 'border-primary bg-primary/10' : 'border-white/20 bg-black'}`}>
+                         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary text-black border-2 border-black text-[9px] font-black uppercase tracking-widest px-3 py-1 shadow-lg font-mono">Most Popular</div>
                          <div>
-                            <h4 className="text-base font-bold text-white mb-1">Pro Tier</h4>
-                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-4">Unlimited Prep</p>
-                            <p className="text-3xl font-black text-white tracking-tighter mb-4">
+                            <h4 className="text-base font-bold text-white mb-1 font-mono uppercase">Pro Tier</h4>
+                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-4 font-mono">Unlimited Prep</p>
+                            <p className="text-3xl font-black text-white tracking-tighter mb-4 font-mono">
                               {billingInterval === 'monthly' ? "$19" : "$15"}<span className="text-xs text-slate-500 font-bold">/mo</span>
                             </p>
                             <ul className="space-y-3 mb-6">
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Unlimited AI Interviews
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Unlimited AI Interviews
                                </li>
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Advanced AI Feedback
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Advanced AI Feedback
                                </li>
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Unlimited Code runs
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Unlimited Code runs
                                </li>
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Priority Support
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Priority Support
                                </li>
                             </ul>
                          </div>
                          <button 
                            onClick={() => handlePlanUpgrade('pro')}
                            disabled={user?.plan === 'pro' || !user?.plan}
-                           className={`w-full py-2.5 rounded-xl font-bold text-xs transition-colors ${user?.plan === 'pro' || !user?.plan ? 'bg-purple-600 text-white cursor-default shadow-md' : 'bg-purple-600 hover:bg-purple-500 text-white'}`}
+                           className={`w-full py-2.5 border-2 font-bold text-xs font-mono uppercase tracking-widest transition-colors ${user?.plan === 'pro' || !user?.plan ? 'bg-primary text-black border-black cursor-default' : 'bg-primary text-black border-black hover:bg-white'}`}
                          >
                             {user?.plan === 'pro' || !user?.plan ? "Active Plan" : "Upgrade to Pro"}
                          </button>
                       </div>
 
                       {/* ENTERPRISE PLAN */}
-                      <div className={`p-6 rounded-2xl border flex flex-col justify-between transition-all ${user?.plan === 'enterprise' ? 'border-purple-500/50 bg-purple-500/5 shadow-[0_0_25px_rgba(147,51,234,0.1)]' : 'border-white/5 bg-white/5'}`}>
+                      <div className={`p-6 border-4 flex flex-col justify-between transition-all brutal-shadow-sm ${user?.plan === 'enterprise' ? 'border-primary bg-primary/10' : 'border-white/20 bg-black'}`}>
                          <div>
-                            <h4 className="text-base font-bold text-white mb-1">Enterprise</h4>
-                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-4">For Teams</p>
-                            <p className="text-3xl font-black text-white tracking-tighter mb-4">
+                            <h4 className="text-base font-bold text-white mb-1 font-mono uppercase">Enterprise</h4>
+                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-4 font-mono">For Teams</p>
+                            <p className="text-3xl font-black text-white tracking-tighter mb-4 font-mono">
                               {billingInterval === 'monthly' ? "$99" : "$79"}<span className="text-xs text-slate-500 font-bold">/mo</span>
                             </p>
                             <ul className="space-y-3 mb-6">
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Custom Rubrics & Roles
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Custom Rubrics & Roles
                                </li>
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Team Performance Dash
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Team Performance Dash
                                </li>
-                               <li className="flex items-center gap-2 text-xs text-slate-300">
-                                  <Check className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" /> Dedicated Account Manager
+                               <li className="flex items-center gap-2 text-xs text-white font-mono uppercase tracking-tight">
+                                  <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" strokeWidth={3} /> Dedicated Account Manager
                                </li>
                             </ul>
                          </div>
                          <button 
                            onClick={() => handlePlanUpgrade('enterprise')}
                            disabled={user?.plan === 'enterprise'}
-                           className={`w-full py-2.5 rounded-xl font-bold text-xs transition-colors ${user?.plan === 'enterprise' ? 'bg-purple-500/20 text-purple-400 cursor-default border border-purple-500/30' : 'bg-white/5 hover:bg-white/10 text-white'}`}
+                           className={`w-full py-2.5 border-2 font-bold text-xs font-mono uppercase tracking-widest transition-colors ${user?.plan === 'enterprise' ? 'bg-primary text-black border-black cursor-default' : 'bg-black text-white border-white/20 hover:bg-white hover:text-black'}`}
                          >
                             {user?.plan === 'enterprise' ? "Active Plan" : "Upgrade Tier"}
                          </button>

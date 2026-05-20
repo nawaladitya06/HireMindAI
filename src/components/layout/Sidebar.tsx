@@ -39,24 +39,24 @@ export function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={toggleSidebar}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-black/80 z-40 lg:hidden"
           />
         )}
       </AnimatePresence>
 
       <aside
         className={cn(
-          "fixed left-0 top-0 h-screen w-64 bg-[#030303]/80 backdrop-blur-xl border-r border-white/10 flex flex-col z-50 overflow-hidden transition-transform duration-300 ease-in-out",
+          "fixed left-0 top-0 h-screen w-64 bg-black border-r-2 border-white/20 flex flex-col z-50 overflow-hidden transition-transform duration-300 ease-in-out",
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Header */}
-        <div className="h-20 flex items-center px-6 border-b border-white/10">
+        <div className="h-20 flex items-center px-6 border-b-2 border-white/20">
           <Link href="/dashboard" className="flex items-center gap-3 w-full group overflow-hidden">
-            <div className="w-8 h-8 flex-shrink-0 rounded-lg overflow-hidden flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-              <img src="/icon.png" alt="Candidra AI Logo" className="w-full h-full object-cover" />
+            <div className="w-10 h-10 flex-shrink-0 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm">
+               <Brain className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg font-black text-white tracking-tighter whitespace-nowrap">
+            <span className="text-xl font-black text-white uppercase font-mono tracking-tighter whitespace-nowrap">
               Candidra
             </span>
           </Link>
@@ -65,23 +65,22 @@ export function Sidebar() {
         {/* Navigation */}
         <div className="flex-1 py-8 flex flex-col gap-8 overflow-y-auto px-4">
            <div>
-              <h4 className="px-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-4 whitespace-nowrap">
+              <h4 className="px-2 text-[10px] font-black uppercase tracking-widest text-primary mb-4 whitespace-nowrap font-mono">
                 Platform
               </h4>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 {navItems.map((item) => {
                   const isActive = pathname === item.href;
                   return (
                     <Link key={item.href} href={item.href}>
                       <div className={cn(
-                        "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group relative",
-                        isActive ? "bg-white/10 text-white" : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
+                        "flex items-center gap-3 px-4 py-3 border-2 transition-all font-mono text-xs uppercase tracking-tight",
+                        isActive 
+                          ? "bg-primary text-black border-primary brutal-shadow-sm translate-x-[2px] translate-y-[2px]" 
+                          : "bg-black text-white border-transparent hover:border-white/20 hover:bg-[#111]"
                       )}>
-                        {isActive && (
-                          <motion.div layoutId="activeNav" className="absolute left-0 w-1 h-5 bg-purple-500 rounded-r-full" />
-                        )}
-                        <item.icon className={cn("w-5 h-5 flex-shrink-0", isActive ? "text-purple-400" : "group-hover:text-purple-400 transition-colors")} />
-                        <span className="font-bold text-sm whitespace-nowrap">
+                        <item.icon className={cn("w-4 h-4 flex-shrink-0", isActive ? "text-black" : "text-white")} />
+                        <span className="font-bold whitespace-nowrap">
                           {item.label}
                         </span>
                       </div>
@@ -92,14 +91,19 @@ export function Sidebar() {
            </div>
 
            <div>
-              <h4 className="px-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-4 whitespace-nowrap">
+              <h4 className="px-2 text-[10px] font-black uppercase tracking-widest text-primary mb-4 whitespace-nowrap font-mono">
                 Account
               </h4>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                  <Link href="/settings">
-                    <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:bg-white/5 hover:text-slate-300 transition-all group">
-                       <Settings className="w-5 h-5 flex-shrink-0 group-hover:text-purple-400 transition-colors" />
-                       <span className="font-bold text-sm whitespace-nowrap">
+                    <div className={cn(
+                        "flex items-center gap-3 px-4 py-3 border-2 transition-all font-mono text-xs uppercase tracking-tight",
+                        pathname === "/settings" 
+                          ? "bg-primary text-black border-primary brutal-shadow-sm translate-x-[2px] translate-y-[2px]" 
+                          : "bg-black text-white border-transparent hover:border-white/20 hover:bg-[#111]"
+                      )}>
+                       <Settings className="w-4 h-4 flex-shrink-0" />
+                       <span className="font-bold whitespace-nowrap">
                           Settings
                        </span>
                     </div>
@@ -109,29 +113,29 @@ export function Sidebar() {
         </div>
 
         {/* Footer / User */}
-        <div className="p-4 border-t border-white/10 relative">
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/5 mb-4">
-             <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 flex-shrink-0 rounded-full overflow-hidden bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center font-bold text-white text-xs">
+        <div className="p-4 border-t-2 border-white/20 relative bg-black">
+          <div className="p-4 bg-black border-2 border-white/20 mb-4 brutal-shadow-sm">
+             <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 flex-shrink-0 border-2 border-white/20 bg-primary flex items-center justify-center font-bold text-white text-xs">
                    {user?.image ? (
-                     <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
+                     <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover grayscale" />
                    ) : (
                      user?.name?.[0] || "U"
                    )}
                 </div>
                 <div className="min-w-0">
-                   <p className="text-sm font-bold text-white truncate">{user?.name || "User"}</p>
+                   <p className="text-sm font-bold text-white truncate font-mono uppercase">{user?.name || "User"}</p>
                    <div className="flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-purple-400" />
-                      <span className="text-[10px] font-black uppercase text-purple-400">Pro Tier</span>
+                      <Sparkles className="w-3 h-3 text-primary" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-primary font-mono">Pro Tier</span>
                    </div>
                 </div>
              </div>
              <button 
               onClick={handleLogout}
-              className="w-full py-2 rounded-xl bg-red-500/10 text-red-500 text-[10px] font-black uppercase tracking-widest hover:bg-red-500/20 transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 bg-red-600 text-white border-2 border-red-600 text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-red-500 hover:border-red-500 transition-all flex items-center justify-center gap-2 font-mono"
              >
-                <LogOut className="w-3 h-3" /> Sign Out
+                <LogOut className="w-4 h-4" /> Sign Out
              </button>
           </div>
         </div>
