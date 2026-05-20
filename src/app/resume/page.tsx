@@ -127,165 +127,167 @@ export default function ResumePage() {
       <div className="max-w-5xl mx-auto space-y-8">
         {!analysis ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-12">
-             <div className="space-y-6">
-                <h2 className="text-3xl font-bold text-white leading-tight">
-                   Optimize your resume for <span className="gradient-text">Top-Tier AI</span> screening.
+             <div className="space-y-8">
+                <h2 className="text-4xl font-black text-white uppercase font-mono tracking-tight leading-tight">
+                   Optimize your resume for <span className="bg-primary text-black px-2 brutal-shadow-sm inline-block">Top-Tier AI</span> screening.
                 </h2>
-                <p className="text-slate-400 leading-relaxed">
+                <p className="text-sm font-bold text-slate-400 font-mono leading-relaxed">
                    Upload your resume to get instant feedback on how ATS systems and interviewers perceive your experience. 
                    Our AI will identify skill gaps and prepare custom questions based on your actual history.
                 </p>
-                <ul className="space-y-3">
+                <ul className="space-y-4 font-mono font-bold">
                    {[
                      "ATS-friendly scoring",
                      "Custom question generation",
                      "Skill gap identification",
                      "Role-match analysis"
                    ].map((item, i) => (
-                     <li key={i} className="flex items-center gap-3 text-sm text-slate-300">
-                        <CheckCircle2 className="w-4 h-4 text-purple-500" /> {item}
+                     <li key={i} className="flex items-center gap-4 text-xs text-white uppercase tracking-tight">
+                        <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" /> {item}
                      </li>
                    ))}
                 </ul>
              </div>
 
-             <GlassCard className="p-10 border-dashed border-2 border-white/10 hover:border-purple-500/30 transition-all">
+             <div className="p-2 border-4 border-white/20 bg-black brutal-shadow group transition-all hover:border-primary">
                 {!file ? (
                   <div 
                     {...getRootProps()} 
-                    className="flex flex-col items-center justify-center text-center cursor-pointer min-h-[300px]"
+                    className="flex flex-col items-center justify-center text-center cursor-pointer min-h-[350px] p-8 border-4 border-dashed border-white/10 group-hover:border-primary/50 transition-colors"
                   >
                     <input {...getInputProps()} />
-                    <div className="w-20 h-20 rounded-full bg-purple-500/10 flex items-center justify-center mb-6">
-                       <Upload className="w-10 h-10 text-purple-500" />
+                    <div className="w-24 h-24 border-4 border-white/20 bg-black flex items-center justify-center mb-8 brutal-shadow-sm group-hover:bg-primary/10 transition-colors">
+                       <Upload className="w-12 h-12 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">
+                    <h3 className="text-2xl font-black text-white mb-4 uppercase font-mono tracking-tight">
                        {isDragActive ? "Drop it here!" : "Upload Resume"}
                     </h3>
-                    <p className="text-sm text-slate-500 mb-6">Drag and drop or click to browse (PDF only)</p>
+                    <p className="text-xs font-bold text-slate-500 font-mono uppercase tracking-widest mb-8">Drag and drop or click to browse (PDF only)</p>
                     <div className="flex gap-4">
-                       <span className="text-[10px] uppercase font-bold text-slate-600 border border-white/5 px-2 py-1 rounded">MAX 5MB</span>
-                       <span className="text-[10px] uppercase font-bold text-slate-600 border border-white/5 px-2 py-1 rounded">PDF ONLY</span>
+                       <span className="text-[10px] uppercase font-black tracking-widest text-black bg-white px-3 py-1 brutal-shadow-sm">MAX 5MB</span>
+                       <span className="text-[10px] uppercase font-black tracking-widest text-black bg-primary px-3 py-1 brutal-shadow-sm">PDF ONLY</span>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center text-center min-h-[300px]">
-                     <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mb-6">
-                        <FileText className="w-10 h-10 text-green-500" />
+                  <div className="flex flex-col items-center justify-center text-center min-h-[350px] p-8 border-4 border-primary/20">
+                     <div className="w-24 h-24 border-4 border-primary bg-primary/10 flex items-center justify-center mb-6 brutal-shadow-sm">
+                        <FileText className="w-12 h-12 text-primary" />
                      </div>
-                     <h3 className="text-xl font-bold text-white mb-2">{file.name}</h3>
-                     <p className="text-sm text-slate-500 mb-8">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                     <h3 className="text-xl font-black text-white mb-3 font-mono uppercase tracking-tight">{file.name}</h3>
+                     <p className="text-xs font-bold text-slate-500 font-mono uppercase tracking-widest mb-10">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                      
-                     <div className="flex gap-4 w-full max-w-xs">
+                     <div className="flex gap-6 w-full max-w-sm">
                         <button 
                           onClick={() => setFile(null)}
-                          className="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 py-3 rounded-xl text-xs font-bold text-slate-400 flex items-center justify-center gap-2"
+                          className="flex-1 bg-black border-2 border-white text-white py-4 font-mono font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-white hover:text-black transition-colors brutal-shadow-sm"
                         >
                            <Trash2 className="w-4 h-4" /> Remove
                         </button>
                         <button 
                           onClick={analyzeResume}
                           disabled={isUploading}
-                          className="flex-1 btn-primary py-3 flex items-center justify-center gap-2"
+                          className="flex-1 btn-primary py-4 flex items-center justify-center gap-2"
                         >
-                           {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Analyze"}
+                           {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Analyze"}
                         </button>
                      </div>
                   </div>
                 )}
-             </GlassCard>
+             </div>
           </div>
         ) : (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Analysis Result */}
-                <GlassCard className="p-8 lg:col-span-1">
-                   <div className="flex items-center gap-4 mb-8">
-                      <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center text-white font-bold text-xl">
+                <div className="p-8 border-4 border-white/20 bg-black brutal-shadow lg:col-span-1 flex flex-col">
+                   <div className="flex items-center gap-4 mb-10">
+                      <div className="w-16 h-16 border-2 border-white/20 bg-primary flex items-center justify-center text-black font-black text-2xl brutal-shadow-sm font-mono">
                          {analysis.name[0]}
                       </div>
                       <div>
-                         <h3 className="text-lg font-bold text-white">{analysis.name}</h3>
-                         <p className="text-xs text-slate-500">{analysis.role}</p>
+                         <h3 className="text-xl font-black text-white font-mono uppercase tracking-tight">{analysis.name}</h3>
+                         <p className="text-xs font-bold text-slate-500 font-mono uppercase tracking-widest mt-1">{analysis.role}</p>
                       </div>
                    </div>
 
-                   <div className="space-y-6 mb-8">
+                   <div className="space-y-8 mb-10 flex-1">
                       <div>
-                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Profile Match Score</p>
-                         <div className="flex items-center gap-4">
-                            <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 font-mono">Profile Match Score</p>
+                         <div className="flex items-center gap-6">
+                            <div className="flex-1 h-6 border-2 border-white/20 bg-black overflow-hidden brutal-shadow-sm">
                                <motion.div 
                                  initial={{ width: 0 }}
                                  animate={{ width: `${analysis.score}%` }}
-                                 className="h-full bg-purple-500" 
+                                 className="h-full bg-primary border-r-2 border-white/20" 
                                />
                             </div>
-                            <span className="text-sm font-bold text-white">{analysis.score}%</span>
+                            <span className="text-base font-black text-white font-mono">{analysis.score}%</span>
                          </div>
                       </div>
                       
                       <div>
-                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Extracted Skills</p>
-                         <div className="flex flex-wrap gap-2">
+                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 font-mono">Extracted Skills</p>
+                         <div className="flex flex-wrap gap-3">
                             {analysis.skills.map((s: string) => (
-                               <span key={s} className="px-2 py-1 rounded bg-white/5 border border-white/5 text-[10px] text-slate-300 font-medium">
+                               <span key={s} className="px-3 py-1.5 bg-black border-2 border-white/20 text-xs text-white font-bold font-mono uppercase tracking-tight hover:border-primary hover:text-primary transition-colors">
                                   {s}
                                </span>
                             ))}
                          </div>
                       </div>
 
-                      <div className="flex justify-between items-center p-4 rounded-xl bg-purple-500/5 border border-purple-500/10">
-                         <div className="flex items-center gap-2">
-                            <Sparkles className="w-4 h-4 text-purple-500" />
-                            <span className="text-xs text-slate-300">Experience Match</span>
+                      <div className="flex justify-between items-center p-5 border-4 border-primary bg-primary/5 brutal-shadow-sm mt-8">
+                         <div className="flex items-center gap-3">
+                            <Sparkles className="w-5 h-5 text-primary" />
+                            <span className="text-xs font-black text-white font-mono uppercase tracking-widest">Experience Match</span>
                          </div>
-                         <span className="text-xs font-bold text-white">{analysis.experience}</span>
+                         <span className="text-xs font-black text-primary font-mono uppercase text-right max-w-[120px]">{analysis.experience}</span>
                       </div>
                    </div>
 
-                   <button className="w-full bg-white/5 hover:bg-white/10 border border-white/5 py-3 rounded-xl text-xs font-bold text-slate-400 flex items-center justify-center gap-2">
-                      <Download className="w-4 h-4" /> Download Report
+                   <button className="w-full bg-black hover:bg-white hover:text-black border-2 border-white text-white py-4 text-xs font-black uppercase font-mono tracking-widest flex items-center justify-center gap-3 transition-colors brutal-shadow-sm mt-auto">
+                      <Download className="w-5 h-5" /> Download Report
                    </button>
-                </GlassCard>
+                </div>
 
                 {/* AI Questions */}
-                <div className="lg:col-span-2 space-y-4">
-                   <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg font-bold text-white flex items-center gap-3">
-                         <Brain className="w-5 h-5 text-purple-500" /> AI-Generated Questions
+                <div className="lg:col-span-2 space-y-6">
+                   <div className="flex items-center justify-between mb-4 pb-4 border-b-2 border-white/20">
+                      <h3 className="text-2xl font-black text-white flex items-center gap-4 font-mono uppercase tracking-tight">
+                         <Brain className="w-8 h-8 text-primary" /> AI-Generated Questions
                       </h3>
                       <button 
                         onClick={startInterview}
-                        className="btn-primary py-2 px-6 flex items-center gap-2 text-xs"
+                        className="btn-primary py-3 px-8 flex items-center gap-3 text-xs"
                       >
-                         Start Interview Session <ChevronRight className="w-4 h-4" />
+                         START SESSION <ChevronRight className="w-5 h-5" />
                       </button>
                    </div>
                    
-                   <p className="text-sm text-slate-500 mb-6">
+                   <p className="text-sm font-bold text-slate-400 mb-8 font-mono leading-relaxed">
                       Based on your resume, we've generated these targeted questions to test your claims and expertise.
                    </p>
 
                    {questions.map((q, i) => (
-                      <GlassCard key={i} className="p-6">
-                         <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-slate-500">
+                      <div key={i} className="p-6 border-4 border-white/20 bg-black brutal-shadow-sm hover:border-primary transition-colors">
+                         <div className="flex items-start gap-6">
+                            <div className="w-12 h-12 border-2 border-white/20 bg-black flex items-center justify-center flex-shrink-0 text-sm font-black text-white brutal-shadow-sm font-mono">
                                {i + 1}
                             </div>
-                            <div className="flex-1">
-                               <div className="flex items-center gap-2 mb-2">
-                                  <span className="badge badge-purple text-[10px]">{q.type}</span>
-                                  <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">{q.difficulty}</span>
+                            <div className="flex-1 pt-1">
+                               <div className="flex items-center gap-4 mb-4">
+                                  <span className="bg-primary text-black px-3 py-1 text-[10px] font-black uppercase tracking-widest font-mono brutal-shadow-sm">{q.type}</span>
+                                  <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest font-mono border-2 border-white/20 px-3 py-1">{q.difficulty}</span>
                                </div>
-                               <h4 className="text-sm font-bold text-white mb-2 leading-relaxed">{q.text}</h4>
+                               <h4 className="text-base font-bold text-white mb-3 leading-relaxed font-mono">{q.text}</h4>
                                {q.followUp && (
-                                 <p className="text-[11px] text-slate-500 italic">Follow-up: {q.followUp}</p>
+                                 <p className="text-xs text-slate-400 font-mono p-4 border-l-4 border-primary bg-white/[0.02]">
+                                   <span className="text-primary font-black uppercase">Follow-up:</span> {q.followUp}
+                                 </p>
                                )}
                             </div>
                          </div>
-                      </GlassCard>
+                      </div>
                    ))}
                 </div>
              </div>

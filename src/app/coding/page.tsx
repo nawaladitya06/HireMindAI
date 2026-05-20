@@ -163,13 +163,13 @@ export default function CodingPage() {
       <div className="flex flex-col lg:flex-row h-[calc(100vh-180px)] gap-6">
         {/* Left Side: Problem Description */}
         <div className="w-full lg:w-1/3 flex flex-col gap-6 overflow-hidden">
-           <GlassCard className="flex-1 p-0 overflow-hidden flex flex-col">
-              <div className="flex border-b border-white/5">
+           <div className="flex-1 p-0 overflow-hidden flex flex-col border-4 border-white/20 bg-black brutal-shadow">
+              <div className="flex border-b-4 border-white/20">
                  <button 
                   onClick={() => setActiveTab("problem")}
                   className={cn(
-                    "flex-1 py-4 text-xs font-bold uppercase tracking-widest transition-all border-b-2",
-                    activeTab === "problem" ? "border-purple-500 text-white bg-white/5" : "border-transparent text-slate-500 hover:text-slate-300"
+                    "flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all border-b-4 font-mono",
+                    activeTab === "problem" ? "border-primary text-black bg-primary brutal-shadow-sm" : "border-transparent text-slate-500 hover:text-white bg-black"
                   )}
                  >
                     Problem Description
@@ -177,8 +177,8 @@ export default function CodingPage() {
                  <button 
                   onClick={() => setActiveTab("testcases")}
                   className={cn(
-                    "flex-1 py-4 text-xs font-bold uppercase tracking-widest transition-all border-b-2",
-                    activeTab === "testcases" ? "border-purple-500 text-white bg-white/5" : "border-transparent text-slate-500 hover:text-slate-300"
+                    "flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all border-b-4 font-mono",
+                    activeTab === "testcases" ? "border-primary text-black bg-primary brutal-shadow-sm" : "border-transparent text-slate-500 hover:text-white bg-black"
                   )}
                  >
                     Test Cases {testResults.length > 0 && `(${testResults.length})`}
@@ -199,29 +199,29 @@ export default function CodingPage() {
                             <span className="badge badge-blue text-[10px]">EASY</span>
                          </div>
                          
-                         <div className="text-sm text-slate-400 leading-relaxed space-y-4">
+                         <div className="text-sm font-bold text-slate-400 leading-relaxed space-y-6 font-mono">
                             <p>Given the head of a singly linked list, reverse the list, and return the reversed list.</p>
-                            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-4">
+                            <div className="p-6 border-4 border-white/20 bg-black brutal-shadow-sm space-y-6">
                                <div>
-                                  <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-widest">Example 1</p>
-                                  <code className="text-white bg-black/40 p-3 rounded-lg block font-mono text-[12px] border border-white/5">
+                                  <p className="text-[10px] font-black text-slate-500 uppercase mb-3 tracking-widest">Example 1</p>
+                                  <code className="text-primary bg-white/5 p-4 block font-mono text-[12px] border-2 border-white/20">
                                     Input: head = [1,2,3,4,5]<br />
                                     Output: [5,4,3,2,1]
                                   </code>
                                </div>
                                <div>
-                                  <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-widest">Example 2</p>
-                                  <code className="text-white bg-black/40 p-3 rounded-lg block font-mono text-[12px] border border-white/5">
+                                  <p className="text-[10px] font-black text-slate-500 uppercase mb-3 tracking-widest">Example 2</p>
+                                  <code className="text-primary bg-white/5 p-4 block font-mono text-[12px] border-2 border-white/20">
                                     Input: head = [1,2]<br />
                                     Output: [2,1]
                                   </code>
                                </div>
                             </div>
-                            <div className="space-y-3 pt-2">
-                               <p className="font-bold text-slate-300 flex items-center gap-2">
-                                  <Info className="w-4 h-4 text-purple-400" /> Constraints:
+                            <div className="space-y-4 pt-4">
+                               <p className="font-black text-white flex items-center gap-3 uppercase tracking-tight">
+                                  <Info className="w-5 h-5 text-primary" /> Constraints:
                                </p>
-                               <ul className="list-disc pl-5 space-y-1.5 marker:text-purple-500">
+                               <ul className="list-disc pl-6 space-y-2 marker:text-primary text-xs">
                                   <li>The number of nodes in the list is the range [0, 5000].</li>
                                   <li>-5000 &lt;= Node.val &lt;= 5000</li>
                                </ul>
@@ -261,40 +261,40 @@ export default function CodingPage() {
                  </AnimatePresence>
               </div>
 
-              <div className="p-4 border-t border-white/5 flex items-center justify-between bg-black/20">
-                 <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <Clock className="w-3.5 h-3.5 text-purple-500" /> {formatTime(timeLeft)} remaining
+              <div className="p-5 border-t-4 border-white/20 flex items-center justify-between bg-black">
+                 <div className="flex items-center gap-3 text-[10px] font-black text-white uppercase tracking-widest font-mono">
+                    <Clock className="w-4 h-4 text-primary" /> {formatTime(timeLeft)} remaining
                  </div>
-                 <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <Trophy className="w-3.5 h-3.5 text-amber-500" /> +100 Points
+                 <div className="flex items-center gap-3 text-[10px] font-black text-white uppercase tracking-widest font-mono bg-white/10 px-3 py-1 border-2 border-white/20">
+                    <Trophy className="w-4 h-4 text-amber-500" /> +100 Points
                  </div>
               </div>
-           </GlassCard>
+           </div>
         </div>
 
         {/* Right Side: Editor */}
         <div className="flex-1 flex flex-col gap-6 overflow-hidden">
-           <GlassCard className="flex-1 p-0 overflow-hidden flex flex-col border-white/5">
-              <div className="h-14 border-b border-white/5 flex items-center justify-between px-6 bg-white/[0.02]">
+           <div className="flex-1 p-0 overflow-hidden flex flex-col border-4 border-white/20 bg-black brutal-shadow">
+              <div className="h-16 border-b-4 border-white/20 flex items-center justify-between px-6 bg-black">
                  <div className="flex items-center gap-4">
                     <select 
                       value={selectedLang.id}
                       onChange={(e) => handleLangChange(e.target.value)}
-                      className="bg-transparent text-xs font-black text-white uppercase tracking-widest outline-none cursor-pointer hover:text-purple-400 transition-colors"
+                      className="bg-transparent text-sm font-black text-primary uppercase tracking-widest outline-none cursor-pointer hover:text-white transition-colors font-mono"
                     >
-                       {PROGRAMMING_LANGUAGES.map(l => <option key={l.id} value={l.id} className="bg-[#0a0a12]">{l.label}</option>)}
+                       {PROGRAMMING_LANGUAGES.map(l => <option key={l.id} value={l.id} className="bg-black text-white">{l.label}</option>)}
                     </select>
                  </div>
-                 <div className="flex items-center gap-3">
+                 <div className="flex items-center gap-4">
                     <button 
                       onClick={resetCode}
-                      className="p-2 rounded-lg hover:bg-white/5 text-slate-500 hover:text-white transition-all"
+                      className="p-2 border-2 border-transparent hover:border-white text-slate-500 hover:text-white transition-all brutal-shadow-sm"
                       title="Reset to template"
                     >
-                       <RefreshCcw className="w-4 h-4" />
+                       <RefreshCcw className="w-5 h-5" />
                     </button>
-                    <button className="p-2 rounded-lg hover:bg-white/5 text-slate-500 hover:text-white transition-all">
-                       <Save className="w-4 h-4" />
+                    <button className="p-2 border-2 border-transparent hover:border-white text-slate-500 hover:text-white transition-all brutal-shadow-sm">
+                       <Save className="w-5 h-5" />
                     </button>
                  </div>
               </div>
@@ -321,42 +321,42 @@ export default function CodingPage() {
                  />
               </div>
 
-              <div className="h-40 border-t border-white/5 bg-[#050508] flex flex-col overflow-hidden">
-                 <div className="h-10 px-6 flex items-center justify-between border-b border-white/5 bg-white/[0.01]">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                       <Terminal className="w-3.5 h-3.5" /> Output Terminal
+              <div className="h-48 border-t-4 border-white/20 bg-black flex flex-col overflow-hidden">
+                 <div className="h-12 px-6 flex items-center justify-between border-b-2 border-white/20 bg-black">
+                    <span className="text-[10px] font-black text-white uppercase tracking-widest flex items-center gap-3 font-mono">
+                       <Terminal className="w-4 h-4 text-primary" /> Output Terminal
                     </span>
-                    {isRunning && <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse shadow-[0_0_8px_#8b5cf6]" />}
+                    {isRunning && <div className="w-3 h-3 bg-primary animate-pulse border border-black brutal-shadow-sm" />}
                  </div>
-                 <div className="flex-1 p-4 px-6 text-[12px] font-mono text-slate-300 overflow-y-auto custom-scrollbar whitespace-pre">
+                 <div className="flex-1 p-6 text-[13px] font-mono text-primary overflow-y-auto custom-scrollbar whitespace-pre font-bold">
                     {output || "No output yet. Run your code to see results."}
                  </div>
               </div>
 
-              <div className="p-5 flex items-center justify-between bg-white/[0.02] border-t border-white/5">
-                 <Link href="/interview/setup" className="text-[10px] font-black text-slate-500 hover:text-white uppercase tracking-widest transition-all flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 rotate-180" /> Leave Session
+              <div className="p-6 flex items-center justify-between bg-black border-t-4 border-white/20">
+                 <Link href="/interview/setup" className="text-xs font-black text-slate-500 hover:text-primary uppercase tracking-widest transition-all flex items-center gap-2 font-mono">
+                    <ChevronRight className="w-5 h-5 rotate-180" /> Leave Session
                  </Link>
-                 <div className="flex items-center gap-4">
+                 <div className="flex items-center gap-6">
                     <button 
                       onClick={runCode}
                       disabled={isRunning || isSubmitting || isSolved}
-                      className="px-6 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2 disabled:opacity-50"
+                      className="px-6 py-3 bg-black border-4 border-white text-white text-xs font-black uppercase tracking-widest font-mono hover:bg-white hover:text-black brutal-shadow transition-colors flex items-center gap-3 disabled:opacity-50"
                     >
-                       {isRunning ? <Loader2 className="w-4 h-4 animate-spin text-purple-400" /> : <Play className="w-4 h-4 fill-current" />}
-                       {isRunning ? "Running..." : "Run Tests"}
+                       {isRunning ? <Loader2 className="w-5 h-5 animate-spin text-black" /> : <Play className="w-5 h-5 fill-current" />}
+                       {isRunning ? "RUNNING..." : "RUN TESTS"}
                     </button>
                     <button 
                       onClick={submitSolution}
                       disabled={isRunning || isSubmitting || isSolved}
-                      className="px-8 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-black uppercase tracking-widest hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all flex items-center gap-2 disabled:opacity-50"
+                      className="px-8 py-3 btn-primary text-xs font-black uppercase tracking-widest font-mono flex items-center gap-3 disabled:opacity-50"
                     >
-                       {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : isSolved ? <CheckCircle2 className="w-4 h-4" /> : null}
-                       {isSubmitting ? "Submitting..." : isSolved ? "Submitted" : "Final Submit"}
+                       {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : isSolved ? <CheckCircle2 className="w-5 h-5" /> : null}
+                       {isSubmitting ? "SUBMITTING..." : isSolved ? "SUBMITTED" : "FINAL SUBMIT"}
                     </button>
                  </div>
               </div>
-           </GlassCard>
+           </div>
         </div>
       </div>
       {isSubmitting && (

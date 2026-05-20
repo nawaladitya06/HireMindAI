@@ -101,184 +101,189 @@ export default function InterviewSetupPage() {
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-8">
-            {/* Step 1: Role */}
-            <GlassCard className="p-8">
+            <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
               <div className="flex items-center gap-4 mb-6">
-                 <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                    <Briefcase className="w-5 h-5 text-purple-500" />
+                 <div className="w-12 h-12 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm">
+                    <Briefcase className="w-6 h-6 text-black" />
                  </div>
                  <div>
-                    <h3 className="text-lg font-bold text-white">Select Your Role</h3>
-                    <p className="text-xs text-slate-500">What position are you preparing for?</p>
+                    <h3 className="text-xl font-black text-white uppercase tracking-tight font-mono">Select Your Role</h3>
+                    <p className="text-xs font-bold text-slate-500 font-mono uppercase">What position are you preparing for?</p>
                  </div>
               </div>
 
               <select 
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="input-field mb-6"
+                className="w-full p-4 bg-black border-2 border-white/20 text-white font-mono uppercase text-sm mb-6 focus:border-primary focus:outline-none brutal-shadow-sm transition-all"
               >
                 {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
               </select>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {EXPERIENCE_LEVELS.map(exp => (
                   <button
                     key={exp.value}
                     onClick={() => setExperience(exp.value)}
                     className={cn(
-                      "p-3 rounded-xl border text-sm font-medium transition-all text-center",
+                      "p-4 border-2 font-mono text-xs uppercase tracking-tight font-bold transition-all text-center",
                       experience === exp.value 
-                        ? "bg-purple-500/10 border-purple-500 text-purple-400" 
-                        : "bg-white/5 border-white/5 text-slate-400 hover:border-white/10"
+                        ? "bg-primary border-primary text-black brutal-shadow-sm translate-x-[2px] translate-y-[2px]" 
+                        : "bg-black border-white/20 text-white hover:border-primary hover:text-primary"
                     )}
                   >
                     {exp.label}
                   </button>
                 ))}
               </div>
-            </GlassCard>
+            </div>
 
             {/* Step 2: Tech Stack */}
-            <GlassCard className="p-8">
+            <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
               <div className="flex items-center gap-4 mb-6">
-                 <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-blue-500" />
+                 <div className="w-12 h-12 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm">
+                    <Sparkles className="w-6 h-6 text-black" />
                  </div>
                  <div>
-                    <h3 className="text-lg font-bold text-white">Target Tech Stack</h3>
-                    <p className="text-xs text-slate-500">Pick up to 5 technologies for technical questions</p>
+                    <h3 className="text-xl font-black text-white uppercase tracking-tight font-mono">Target Tech Stack</h3>
+                    <p className="text-xs font-bold text-slate-500 font-mono uppercase">Pick up to 5 technologies for technical questions</p>
                  </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-3 mb-6">
                 {TECH_STACKS.slice(0, 20).map(tech => (
                   <button
                     key={tech}
                     onClick={() => toggleTech(tech)}
                     className={cn(
-                      "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-2",
+                      "px-4 py-2 text-xs font-bold font-mono uppercase tracking-tight border-2 transition-all flex items-center gap-2",
                       selectedTech.includes(tech)
-                        ? "bg-blue-500/10 border-blue-500 text-blue-400"
-                        : "bg-white/5 border-white/5 text-slate-400 hover:border-white/10"
+                        ? "bg-primary border-primary text-black brutal-shadow-sm translate-x-[2px] translate-y-[2px]"
+                        : "bg-black border-white/20 text-white hover:border-primary hover:text-primary"
                     )}
                   >
                     {tech}
-                    {selectedTech.includes(tech) && <Check className="w-3 h-3" />}
+                    {selectedTech.includes(tech) && <Check className="w-4 h-4" />}
                   </button>
                 ))}
               </div>
               
-              <div className="text-[10px] text-slate-500 flex items-center gap-2">
-                 <Info className="w-3 h-3" />
+              <div className="text-[10px] font-black text-slate-500 font-mono uppercase tracking-widest flex items-center gap-2">
+                 <Info className="w-4 h-4 text-primary" />
                  Selected: {selectedTech.length}/5 technologies
               </div>
-            </GlassCard>
+            </div>
 
             {/* Step 3: Interview Mode */}
-            <GlassCard className="p-8">
+            <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
                <div className="flex items-center gap-4 mb-6">
-                 <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
-                    <Brain className="w-5 h-5 text-cyan-500" />
+                 <div className="w-12 h-12 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm">
+                    <Brain className="w-6 h-6 text-black" />
                  </div>
                  <div>
-                    <h3 className="text-lg font-bold text-white">Interview Type</h3>
-                    <p className="text-xs text-slate-500">How should the AI evaluate you?</p>
+                    <h3 className="text-xl font-black text-white uppercase tracking-tight font-mono">Interview Type</h3>
+                    <p className="text-xs font-bold text-slate-500 font-mono uppercase">How should the AI evaluate you?</p>
                  </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                  <button 
                   onClick={() => setInterviewType("standard")}
                   className={cn(
-                    "p-4 rounded-xl border text-left transition-all",
+                    "p-6 border-4 text-left transition-all",
                     interviewType === "standard" 
-                      ? "bg-cyan-500/10 border-cyan-500" 
-                      : "bg-white/5 border-white/5 opacity-60 hover:opacity-100"
+                      ? "bg-primary/10 border-primary brutal-shadow-sm" 
+                      : "bg-black border-white/20 hover:border-white/50 hover:brutal-shadow"
                   )}
                  >
-                    <div className="flex items-center gap-3 mb-2">
-                       <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center">
-                          <Mic className="w-4 h-4 text-cyan-400" />
+                    <div className="flex items-center gap-4 mb-4">
+                       <div className={cn(
+                          "w-10 h-10 border-2 flex items-center justify-center brutal-shadow-sm",
+                          interviewType === "standard" ? "border-primary bg-primary" : "border-white/20 bg-black"
+                       )}>
+                          <Mic className={cn("w-5 h-5", interviewType === "standard" ? "text-black" : "text-white")} />
                        </div>
-                       <span className="font-bold text-white text-sm">Standard</span>
+                       <span className="font-black text-white text-base font-mono uppercase tracking-tight">Standard</span>
                     </div>
-                    <p className="text-xs text-slate-400">Curated questions based on role and stack.</p>
+                    <p className="text-xs font-bold text-slate-400 font-mono">Curated questions based on role and stack.</p>
                  </button>
 
                  <button 
                   onClick={() => setInterviewType("resume")}
                   className={cn(
-                    "p-4 rounded-xl border text-left transition-all",
+                    "p-6 border-4 text-left transition-all",
                     interviewType === "resume" 
-                      ? "bg-purple-500/10 border-purple-500" 
-                      : "bg-white/5 border-white/5 opacity-60 hover:opacity-100"
+                      ? "bg-primary/10 border-primary brutal-shadow-sm" 
+                      : "bg-black border-white/20 hover:border-white/50 hover:brutal-shadow"
                   )}
                  >
-                    <div className="flex items-center gap-3 mb-2">
-                       <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                          <FileText className="w-4 h-4 text-purple-400" />
+                    <div className="flex items-center gap-4 mb-4">
+                       <div className={cn(
+                          "w-10 h-10 border-2 flex items-center justify-center brutal-shadow-sm",
+                          interviewType === "resume" ? "border-primary bg-primary" : "border-white/20 bg-black"
+                       )}>
+                          <FileText className={cn("w-5 h-5", interviewType === "resume" ? "text-black" : "text-white")} />
                        </div>
-                       <span className="font-bold text-white text-sm">Resume-First</span>
+                       <span className="font-black text-white text-base font-mono uppercase tracking-tight">Resume-First</span>
                     </div>
-                    <p className="text-xs text-slate-400">Personalized questions from your uploaded CV.</p>
+                    <p className="text-xs font-bold text-slate-400 font-mono">Personalized questions from your uploaded CV.</p>
                  </button>
               </div>
-            </GlassCard>
+            </div>
           </div>
 
           {/* Summary Sidebar */}
-          <div className="space-y-6">
-            <GlassCard className="p-6 sticky top-24 border-purple-500/20">
-               <h3 className="font-bold text-white mb-6">Session Summary</h3>
-               <div className="space-y-4 mb-8">
-                  <div className="flex justify-between text-sm">
-                     <span className="text-slate-500">Role</span>
-                     <span className="text-slate-300 font-medium">{role}</span>
+          <div className="space-y-8">
+            <div className="p-8 border-4 border-white/20 bg-black brutal-shadow sticky top-24">
+               <h3 className="text-xl font-black text-white mb-8 font-mono uppercase tracking-tight">Session Summary</h3>
+               <div className="space-y-6 mb-8 font-mono">
+                  <div className="flex justify-between text-xs font-bold">
+                     <span className="text-slate-500 uppercase">Role</span>
+                     <span className="text-white bg-white/10 px-2 py-1">{role}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                     <span className="text-slate-500">Level</span>
-                     <span className="text-slate-300 font-medium capitalize">{experience}</span>
+                  <div className="flex justify-between text-xs font-bold">
+                     <span className="text-slate-500 uppercase">Level</span>
+                     <span className="text-white bg-white/10 px-2 py-1 capitalize">{experience}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                     <span className="text-slate-500">Technologies</span>
-                     <span className="text-slate-300 font-medium text-right">
+                  <div className="flex justify-between text-xs font-bold">
+                     <span className="text-slate-500 uppercase">Technologies</span>
+                     <span className="text-primary text-right max-w-[120px] leading-relaxed">
                        {selectedTech.length > 0 ? selectedTech.join(", ") : "None selected"}
                      </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                     <span className="text-slate-500">Estimated Time</span>
-                     <span className="text-slate-300 font-medium">~25-30 mins</span>
+                  <div className="flex justify-between text-xs font-bold pt-4 border-t-2 border-white/10">
+                     <span className="text-slate-500 uppercase">Est. Time</span>
+                     <span className="text-white">~25-30 mins</span>
                   </div>
                </div>
 
                <button 
                  disabled={isLoading}
                  onClick={handleStart}
-                 className="w-full btn-primary py-4 flex items-center justify-center gap-2"
+                 className="w-full btn-primary py-4 flex items-center justify-center gap-3 text-base"
                >
                  {isLoading ? (
                    <>
-                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                     Initializing...
+                     <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                     INITIALIZING...
                    </>
                  ) : (
                    <>
-                     Start Interview <ChevronRight className="w-4 h-4" />
+                     START INTERVIEW <ChevronRight className="w-5 h-5" />
                    </>
                  )}
                </button>
                
-               <p className="text-[10px] text-slate-500 text-center mt-4">
+               <p className="text-[10px] font-bold text-slate-500 text-center mt-6 font-mono uppercase tracking-widest leading-relaxed">
                  By starting, you agree to allow browser microphone access for speech-to-text.
                </p>
-            </GlassCard>
+            </div>
 
-            <div className="p-4 glass rounded-xl border-white/5">
-               <h4 className="text-xs font-bold text-white mb-3 flex items-center gap-2">
-                 <Info className="w-3.5 h-3.5 text-purple-500" /> Pro Tip
+            <div className="p-6 border-4 border-primary bg-primary/5 brutal-shadow-sm">
+               <h4 className="text-sm font-black text-primary mb-4 flex items-center gap-3 font-mono uppercase tracking-tight">
+                 <Info className="w-5 h-5" /> Pro Tip
                </h4>
-               <p className="text-[11px] text-slate-400 leading-relaxed">
+               <p className="text-xs font-bold text-white font-mono leading-relaxed">
                  AI Interviews are dynamic. If you answer well, the AI will ask more challenging follow-up questions to test your limits.
                </p>
             </div>

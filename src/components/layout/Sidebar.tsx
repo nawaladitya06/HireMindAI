@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Mic, Code2, FileText, BarChart3, User, Settings,
-  Brain, ChevronLeft, ChevronRight, Star, Shield, Zap, LogOut, Sparkles
+  ChevronLeft, ChevronRight, Star, Shield, Zap, LogOut, Sparkles
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -53,8 +53,8 @@ export function Sidebar() {
         {/* Header */}
         <div className="h-20 flex items-center px-6 border-b-2 border-white/20">
           <Link href="/dashboard" className="flex items-center gap-3 w-full group overflow-hidden">
-            <div className="w-10 h-10 flex-shrink-0 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm">
-               <Brain className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 flex-shrink-0 border-2 border-white/20 bg-black flex items-center justify-center brutal-shadow-sm overflow-hidden">
+               <img src="/icon.png" alt="Candidra" className="w-full h-full object-cover" />
             </div>
             <span className="text-xl font-black text-white uppercase font-mono tracking-tighter whitespace-nowrap">
               Candidra
@@ -116,7 +116,7 @@ export function Sidebar() {
         <div className="p-4 border-t-2 border-white/20 relative bg-black">
           <div className="p-4 bg-black border-2 border-white/20 mb-4 brutal-shadow-sm">
              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 flex-shrink-0 border-2 border-white/20 bg-primary flex items-center justify-center font-bold text-white text-xs">
+                <div className="w-10 h-10 flex-shrink-0 border-2 border-white/20 bg-primary flex items-center justify-center font-black text-black text-xs brutal-shadow-sm">
                    {user?.image ? (
                      <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover grayscale" />
                    ) : (
