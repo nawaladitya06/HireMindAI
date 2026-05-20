@@ -86,6 +86,7 @@ export default function ReportsIndexPage() {
          </div>
       </div>
 
+      {filteredReports.length === 0 ? (
         <div className="p-20 flex flex-col items-center justify-center text-center border-4 border-white/20 bg-black brutal-shadow">
            <div className="w-24 h-24 border-4 border-white bg-primary flex items-center justify-center mb-8 relative brutal-shadow-sm">
               <BarChart3 className="w-10 h-10 text-black" />
