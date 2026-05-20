@@ -162,11 +162,11 @@ export default function SettingsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* Left Column: Navigation/Overview */}
          <div className="lg:col-span-1 space-y-6">
-            <GlassCard className="p-6 border-white/5">
+            <div className="p-6 border-4 border-white/20 bg-black brutal-shadow">
                <div className="flex items-center gap-4 mb-6">
-                   <div className="relative group w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center font-black text-white text-2xl shadow-xl border border-white/10 cursor-pointer">
+                   <div className="relative group w-16 h-16 border-4 border-white bg-primary flex items-center justify-center font-black text-black text-2xl shadow-none cursor-pointer">
                       {user?.image ? (
-                         <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
+                         <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover grayscale" />
                       ) : (
                          user?.name?.[0] || "U"
                       )}
@@ -183,53 +183,53 @@ export default function SettingsPage() {
                       </div>
                    </div>
                   <div>
-                     <h3 className="text-lg font-bold text-white truncate max-w-[150px]">{user?.name || "User"}</h3>
-                     <p className="text-xs font-bold text-slate-500 truncate max-w-[150px]">{user?.email || "user@example.com"}</p>
+                     <h3 className="text-lg font-black text-white truncate max-w-[150px] uppercase font-mono">{user?.name || "User"}</h3>
+                     <p className="text-xs font-bold text-slate-500 truncate max-w-[150px] font-mono">{user?.email || "user@example.com"}</p>
                   </div>
                </div>
                
-               <div className="space-y-1">
+               <div className="space-y-2">
                   <button 
                     onClick={() => setActiveTab('general')}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all font-bold text-sm ${activeTab === 'general' ? 'bg-white/10 text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+                    className={`w-full flex items-center justify-between px-4 py-3 border-2 transition-all font-mono text-xs uppercase font-bold tracking-tight ${activeTab === 'general' ? 'bg-primary text-black border-primary brutal-shadow-sm' : 'bg-black text-white border-transparent hover:border-white/20'}`}
                   >
                      <span className="flex items-center gap-3">
-                       <User className={`w-4 h-4 ${activeTab === 'general' ? 'text-primary' : ''}`} /> General
+                       <User className="w-4 h-4 flex-shrink-0" /> General
                      </span>
-                     <ChevronRight className={`w-4 h-4 ${activeTab === 'general' ? 'text-primary' : 'opacity-0'}`} />
+                     <ChevronRight className={`w-4 h-4 ${activeTab === 'general' ? 'text-black' : 'opacity-0'}`} />
                   </button>
                   
                   <button 
                     onClick={() => setActiveTab('security')}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all font-bold text-sm ${activeTab === 'security' ? 'bg-white/10 text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+                    className={`w-full flex items-center justify-between px-4 py-3 border-2 transition-all font-mono text-xs uppercase font-bold tracking-tight ${activeTab === 'security' ? 'bg-primary text-black border-primary brutal-shadow-sm' : 'bg-black text-white border-transparent hover:border-white/20'}`}
                   >
                      <span className="flex items-center gap-3">
-                       <Shield className={`w-4 h-4 ${activeTab === 'security' ? 'text-primary' : ''}`} /> Security
+                       <Shield className="w-4 h-4 flex-shrink-0" /> Security
                      </span>
-                     <ChevronRight className={`w-4 h-4 ${activeTab === 'security' ? 'text-primary' : 'opacity-0'}`} />
+                     <ChevronRight className={`w-4 h-4 ${activeTab === 'security' ? 'text-black' : 'opacity-0'}`} />
                   </button>
                   
                   <button 
                     onClick={() => setActiveTab('notifications')}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all font-bold text-sm ${activeTab === 'notifications' ? 'bg-white/10 text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+                    className={`w-full flex items-center justify-between px-4 py-3 border-2 transition-all font-mono text-xs uppercase font-bold tracking-tight ${activeTab === 'notifications' ? 'bg-primary text-black border-primary brutal-shadow-sm' : 'bg-black text-white border-transparent hover:border-white/20'}`}
                   >
                      <span className="flex items-center gap-3">
-                       <Bell className={`w-4 h-4 ${activeTab === 'notifications' ? 'text-primary' : ''}`} /> Notifications
+                       <Bell className="w-4 h-4 flex-shrink-0" /> Notifications
                      </span>
-                     <ChevronRight className={`w-4 h-4 ${activeTab === 'notifications' ? 'text-primary' : 'opacity-0'}`} />
+                     <ChevronRight className={`w-4 h-4 ${activeTab === 'notifications' ? 'text-black' : 'opacity-0'}`} />
                   </button>
                   
                   <button 
                     onClick={() => setActiveTab('billing')}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all font-bold text-sm ${activeTab === 'billing' ? 'bg-white/10 text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
+                    className={`w-full flex items-center justify-between px-4 py-3 border-2 transition-all font-mono text-xs uppercase font-bold tracking-tight ${activeTab === 'billing' ? 'bg-primary text-black border-primary brutal-shadow-sm' : 'bg-black text-white border-transparent hover:border-white/20'}`}
                   >
                      <span className="flex items-center gap-3">
-                       <CreditCard className={`w-4 h-4 ${activeTab === 'billing' ? 'text-primary' : ''}`} /> Billing
+                       <CreditCard className="w-4 h-4 flex-shrink-0" /> Billing
                      </span>
-                     <ChevronRight className={`w-4 h-4 ${activeTab === 'billing' ? 'text-primary' : 'opacity-0'}`} />
+                     <ChevronRight className={`w-4 h-4 ${activeTab === 'billing' ? 'text-black' : 'opacity-0'}`} />
                   </button>
                </div>
-            </GlassCard>
+            </div>
 
             <div className="p-6 border-2 border-primary bg-primary/10 relative overflow-hidden brutal-shadow">
                <h4 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2 mb-2 font-mono">
@@ -248,8 +248,8 @@ export default function SettingsPage() {
             {/* GENERAL TAB */}
             {activeTab === 'general' && (
               <>
-                <GlassCard className="p-8 border-white/5">
-                   <h3 className="text-xl font-bold text-white mb-6">Profile Information</h3>
+                <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
+                   <h3 className="text-xl font-black uppercase text-white mb-6 font-mono">Profile Information</h3>
                    
                    <form className="space-y-6" onSubmit={handleGeneralSave}>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -338,11 +338,11 @@ export default function SettingsPage() {
                          </button>
                       </div>
                    </form>
-                </GlassCard>
+                </div>
 
-                <GlassCard className="p-8 border-red-500/10 bg-red-500/5">
-                   <h3 className="text-xl font-bold text-red-400 mb-2">Danger Zone</h3>
-                   <p className="text-sm text-slate-400 mb-6">Permanently delete your account and all associated interview data. This action cannot be undone.</p>
+                <div className="p-8 border-4 border-red-500 bg-red-500/10 brutal-shadow">
+                   <h3 className="text-xl font-black uppercase tracking-tight text-red-500 mb-2 font-mono">Danger Zone</h3>
+                   <p className="text-sm font-bold text-slate-400 mb-6 font-mono">Permanently delete your account and all associated interview data. This action cannot be undone.</p>
                    <button 
                      onClick={handleDelete}
                      disabled={isDeleting}
@@ -351,15 +351,15 @@ export default function SettingsPage() {
                       {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                       {isDeleting ? "Deleting..." : "Delete Account"}
                    </button>
-                </GlassCard>
+                 </div>
               </>
             )}
 
             {/* SECURITY TAB */}
             {activeTab === 'security' && (
               <>
-                <GlassCard className="p-8 border-white/5">
-                   <h3 className="text-xl font-bold text-white mb-6">Update Password</h3>
+                <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
+                   <h3 className="text-xl font-black uppercase text-white mb-6 font-mono">Update Password</h3>
                    
                    <form className="space-y-6" onSubmit={handleSecuritySave}>
                       <div className="space-y-2">
@@ -419,13 +419,13 @@ export default function SettingsPage() {
                          </button>
                       </div>
                    </form>
-                </GlassCard>
+                </div>
 
-                <GlassCard className="p-8 border-white/5">
+                <div className="p-8 border-4 border-white/20 bg-black brutal-shadow mt-6">
                    <div className="flex items-center justify-between">
                       <div>
-                         <h3 className="text-xl font-bold text-white mb-2">Two-Factor Authentication</h3>
-                         <p className="text-sm text-slate-400">Add an extra layer of security to your account by requiring an OTP token.</p>
+                         <h3 className="text-xl font-black uppercase text-white mb-2 font-mono">Two-Factor Authentication</h3>
+                         <p className="text-sm text-slate-400 font-bold font-mono">Add an extra layer of security to your account by requiring an OTP token.</p>
                       </div>
                       <button 
                         onClick={() => {
@@ -437,12 +437,12 @@ export default function SettingsPage() {
                          <span className="w-6 h-6 rounded-full bg-white shadow-md block" />
                       </button>
                    </div>
-                </GlassCard>
+                </div>
 
-                <GlassCard className="p-8 border-white/5">
-                   <h3 className="text-xl font-bold text-white mb-6">Active Sessions</h3>
+                <div className="p-8 border-4 border-white/20 bg-black brutal-shadow mt-6">
+                   <h3 className="text-xl font-black uppercase text-white mb-6 font-mono">Active Sessions</h3>
                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5">
+                      <div className="flex items-center justify-between p-4 border-2 border-white/20 bg-white/5 brutal-shadow-sm">
                          <div className="flex items-center gap-4">
                             <Laptop className="w-8 h-8 text-primary" />
                             <div>
@@ -463,15 +463,15 @@ export default function SettingsPage() {
                          <button onClick={() => toast.success("Session revoked")} className="text-[10px] font-black uppercase tracking-widest text-red-400 hover:text-red-300">Revoke</button>
                       </div>
                    </div>
-                </GlassCard>
+                </div>
               </>
             )}
 
             {/* NOTIFICATIONS TAB */}
             {activeTab === 'notifications' && (
-              <GlassCard className="p-8 border-white/5">
-                 <h3 className="text-xl font-bold text-white mb-2">Notification Preferences</h3>
-                 <p className="text-sm text-slate-400 mb-8">Configure when and where you would like to be notified.</p>
+              <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
+                 <h3 className="text-xl font-black uppercase text-white mb-2 font-mono">Notification Preferences</h3>
+                 <p className="text-sm font-bold font-mono text-slate-400 mb-8">Configure when and where you would like to be notified.</p>
 
                  <form className="space-y-8" onSubmit={handleNotificationSave}>
                     <div className="space-y-4">
@@ -563,17 +563,17 @@ export default function SettingsPage() {
                        </button>
                     </div>
                  </form>
-              </GlassCard>
+              </div>
             )}
 
             {/* BILLING TAB */}
             {activeTab === 'billing' && (
               <>
-                <GlassCard className="p-8 border-white/5">
+                <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                       <div>
-                         <h3 className="text-xl font-bold text-white">Subscription & Plans</h3>
-                         <p className="text-sm text-slate-400">Scale your preparations as you practice for your dream jobs.</p>
+                         <h3 className="text-xl font-black uppercase text-white font-mono">Subscription & Plans</h3>
+                         <p className="text-sm font-bold font-mono text-slate-400">Scale your preparations as you practice for your dream jobs.</p>
                       </div>
                       
                       {/* Interval Switcher */}
@@ -684,10 +684,10 @@ export default function SettingsPage() {
                          </button>
                       </div>
                    </div>
-                </GlassCard>
+                </div>
 
-                <GlassCard className="p-8 border-white/5">
-                   <h3 className="text-xl font-bold text-white mb-6">Billing History</h3>
+                <div className="p-8 border-4 border-white/20 bg-black brutal-shadow mt-6">
+                   <h3 className="text-xl font-black uppercase text-white mb-6 font-mono">Billing History</h3>
                    <div className="overflow-x-auto">
                       <table className="w-full text-left text-sm text-slate-300">
                          <thead className="text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-white/10">
@@ -725,7 +725,7 @@ export default function SettingsPage() {
                          </tbody>
                       </table>
                    </div>
-                </GlassCard>
+                </div>
               </>
             )}
 

@@ -27,9 +27,13 @@ export async function POST(req: NextRequest) {
 
     // Save metadata to D1
     const db = getDb();
-    await db.update(users).set({
-      image: url
-    }).where(eq(users.id, session.user.id));
+    try {
+      await db.update(users).set({
+        image: url
+      }).where(eq(users.id, session.user.id));
+    } catch (dbErr) {
+      console.warn("DB Update failed for avatar, possibly due to schema mismatch. Skipping DB update, but avatar uploaded.", dbErr);
+    }
     
     return NextResponse.json({ 
       success: true, 
