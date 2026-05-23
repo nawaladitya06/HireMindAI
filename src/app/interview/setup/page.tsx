@@ -50,7 +50,7 @@ export default function InterviewSetupPage() {
   };
 
   const handleStart = async () => {
-    if (selectedTech.length === 0 && interviewType === "standard") {
+    if (selectedStream === "Software Engineering & IT" && selectedTech.length === 0 && interviewType === "standard") {
       toast.error("Please select at least one technology");
       return;
     }
@@ -168,40 +168,42 @@ export default function InterviewSetupPage() {
             </div>
 
             {/* Step 2: Tech Stack */}
-            <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
-              <div className="flex items-center gap-4 mb-6">
-                 <div className="w-12 h-12 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm">
-                    <Sparkles className="w-6 h-6 text-black" />
-                 </div>
-                 <div>
-                    <h3 className="text-xl font-black text-white uppercase tracking-tight font-mono">Target Tech Stack</h3>
-                    <p className="text-xs font-bold text-slate-500 font-mono uppercase">Pick up to 5 technologies for technical questions</p>
-                 </div>
-              </div>
+            {selectedStream === "Software Engineering & IT" && (
+              <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
+                <div className="flex items-center gap-4 mb-6">
+                   <div className="w-12 h-12 border-2 border-white/20 bg-primary flex items-center justify-center brutal-shadow-sm">
+                      <Sparkles className="w-6 h-6 text-black" />
+                   </div>
+                   <div>
+                      <h3 className="text-xl font-black text-white uppercase tracking-tight font-mono">Target Tech Stack</h3>
+                      <p className="text-xs font-bold text-slate-500 font-mono uppercase">Pick up to 5 technologies for technical questions</p>
+                   </div>
+                </div>
 
-              <div className="flex flex-wrap gap-3 mb-6">
-                {TECH_STACKS.slice(0, 20).map(tech => (
-                  <button
-                    key={tech}
-                    onClick={() => toggleTech(tech)}
-                    className={cn(
-                      "px-4 py-2 text-xs font-bold font-mono uppercase tracking-tight border-2 transition-all flex items-center gap-2",
-                      selectedTech.includes(tech)
-                        ? "bg-primary border-primary text-black brutal-shadow-sm translate-x-[2px] translate-y-[2px]"
-                        : "bg-black border-white/20 text-white hover:border-primary hover:text-primary"
-                    )}
-                  >
-                    {tech}
-                    {selectedTech.includes(tech) && <Check className="w-4 h-4" />}
-                  </button>
-                ))}
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {TECH_STACKS.slice(0, 20).map(tech => (
+                    <button
+                      key={tech}
+                      onClick={() => toggleTech(tech)}
+                      className={cn(
+                        "px-4 py-2 text-xs font-bold font-mono uppercase tracking-tight border-2 transition-all flex items-center gap-2",
+                        selectedTech.includes(tech)
+                          ? "bg-primary border-primary text-black brutal-shadow-sm translate-x-[2px] translate-y-[2px]"
+                          : "bg-black border-white/20 text-white hover:border-primary hover:text-primary"
+                      )}
+                    >
+                      {tech}
+                      {selectedTech.includes(tech) && <Check className="w-4 h-4" />}
+                    </button>
+                  ))}
+                </div>
+                
+                <div className="text-[10px] font-black text-slate-500 font-mono uppercase tracking-widest flex items-center gap-2">
+                   <Info className="w-4 h-4 text-primary" />
+                   Selected: {selectedTech.length}/5 technologies
+                </div>
               </div>
-              
-              <div className="text-[10px] font-black text-slate-500 font-mono uppercase tracking-widest flex items-center gap-2">
-                 <Info className="w-4 h-4 text-primary" />
-                 Selected: {selectedTech.length}/5 technologies
-              </div>
-            </div>
+            )}
 
             {/* Step 3: Interview Mode */}
             <div className="p-8 border-4 border-white/20 bg-black brutal-shadow">
@@ -277,7 +279,7 @@ export default function InterviewSetupPage() {
                   <div className="flex justify-between text-xs font-bold">
                      <span className="text-slate-500 uppercase">Technologies</span>
                      <span className="text-primary text-right max-w-[120px] leading-relaxed">
-                       {selectedTech.length > 0 ? selectedTech.join(", ") : "None selected"}
+                       {selectedStream === "Software Engineering & IT" ? (selectedTech.length > 0 ? selectedTech.join(", ") : "None selected") : "N/A"}
                      </span>
                   </div>
                   <div className="flex justify-between text-xs font-bold pt-4 border-t-2 border-white/10">
