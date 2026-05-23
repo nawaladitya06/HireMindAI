@@ -3,6 +3,7 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { useState } from "react";
+import Link from "next/link";
 import { 
   ROLES, EXPERIENCE_LEVELS, TECH_STACKS, cn, ROLES_BY_STREAM
 } from "@/lib/utils";
@@ -20,11 +21,21 @@ export default function InterviewSetupPage() {
   const router = useRouter();
   const { setCurrentInterview, addInterview } = useAppStore();
   
-  const [role, setRole] = useState(ROLES[0]);
+  const streams = Object.keys(ROLES_BY_STREAM);
+  const [selectedStream, setSelectedStream] = useState(streams[0]);
+  const [role, setRole] = useState(ROLES_BY_STREAM[streams[0]][0]);
   const [experience, setExperience] = useState(EXPERIENCE_LEVELS[1].value);
   const [selectedTech, setSelectedTech] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [interviewType, setInterviewType] = useState<"standard" | "resume">("standard");
+
+  const handleStreamChange = (stream: string) => {
+    setSelectedStream(stream);
+    const rolesForStream = ROLES_BY_STREAM[stream];
+    if (rolesForStream && rolesForStream.length > 0) {
+      setRole(rolesForStream[0]);
+    }
+  };
 
   const toggleTech = (tech: string) => {
     if (selectedTech.includes(tech)) {
@@ -112,21 +123,31 @@ export default function InterviewSetupPage() {
                  </div>
               </div>
 
-              <select 
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full p-4 bg-black border-2 border-white/20 text-white font-mono uppercase text-sm mb-6 focus:border-primary focus:outline-none brutal-shadow-sm transition-all cursor-pointer"
-              >
-                {Object.entries(ROLES_BY_STREAM).map(([stream, roles]) => (
-                  <optgroup key={stream} label={stream} className="bg-black text-primary font-bold font-mono py-2">
-                    {roles.map(r => (
-                      <option key={r} value={r} className="bg-black text-white font-mono font-bold uppercase">
-                        {r}
-                      </option>
+              <div className="space-y-4 mb-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-primary font-mono block">1. Select Stream</label>
+                  <select 
+                    value={selectedStream}
+                    onChange={(e) => handleStreamChange(e.target.value)}
+                    className="w-full p-4 bg-black border-2 border-white/20 text-white font-mono uppercase text-sm focus:border-primary focus:outline-none brutal-shadow-sm transition-all cursor-pointer"
+                  >
+                    {streams.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-primary font-mono block">2. Select Job Role</label>
+                  <select 
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    className="w-full p-4 bg-black border-2 border-white/20 text-white font-mono uppercase text-sm focus:border-primary focus:outline-none brutal-shadow-sm transition-all cursor-pointer"
+                  >
+                    {(ROLES_BY_STREAM[selectedStream] || []).map(r => (
+                      <option key={r} value={r}>{r}</option>
                     ))}
-                  </optgroup>
-                ))}
-              </select>
+                  </select>
+                </div>
+              </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {EXPERIENCE_LEVELS.map(exp => (
@@ -265,22 +286,30 @@ export default function InterviewSetupPage() {
                   </div>
                </div>
 
-               <button 
-                 disabled={isLoading}
-                 onClick={handleStart}
-                 className="w-full btn-primary py-4 flex items-center justify-center gap-3 text-base"
-               >
-                 {isLoading ? (
-                   <>
-                     <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                     INITIALIZING...
-                   </>
-                 ) : (
-                   <>
-                     START INTERVIEW <ChevronRight className="w-5 h-5" />
-                   </>
+               <div className="space-y-4">
+                 <button 
+                   disabled={isLoading}
+                   onClick={handleStart}
+                   className="w-full btn-primary py-4 flex items-center justify-center gap-3 text-base bg-primary text-black hover:bg-white border-black font-mono font-bold uppercase brutal-shadow-sm"
+                 >
+                   {isLoading ? (
+                     <>
+                       <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                       INITIALIZING...
+                     </>
+                   ) : (
+                     <>
+                       START AI INTERVIEW <ChevronRight className="w-5 h-5" />
+                     </>
+                   )}
+                 </button>
+                 
+                 {selectedStream === "Software Engineering & IT" && (
+                   <Link href="/coding" className="w-full py-4 flex items-center justify-center gap-3 text-base bg-black text-white hover:bg-primary hover:text-black border-2 border-white/20 transition-all font-mono font-bold uppercase brutal-shadow-sm">
+                     PRACTICE CODING ROUND <ChevronRight className="w-5 h-5" />
+                   </Link>
                  )}
-               </button>
+               </div>
                
                <p className="text-[10px] font-bold text-slate-500 text-center mt-6 font-mono uppercase tracking-widest leading-relaxed">
                  By starting, you agree to allow browser microphone access for speech-to-text.

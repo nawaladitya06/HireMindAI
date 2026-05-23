@@ -2,6 +2,7 @@
 
 import { Question, Feedback } from "./store";
 import { callAIProvider } from "./ai-provider";
+import { ROLES_BY_STREAM } from "./utils";
 
 // Helper function to extract JSON from AI response robustly
 function extractJSON<T>(text: string): T {
@@ -86,16 +87,88 @@ const MOCK_QUESTIONS_MAP: Record<string, Array<{ text: string; type: string; dif
   ]
 };
 
+const STREAM_MOCK_QUESTIONS_MAP: Record<string, Array<{ text: string; type: string; difficulty: string }>> = {
+  "Software Engineering & IT": [
+    { text: "How do you design a highly available, scalable architecture for a high-traffic web application?", type: "technical", difficulty: "hard" },
+    { text: "What are the core trade-offs between monolithic architecture and microservices?", type: "technical", difficulty: "medium" },
+    { text: "A critical bug is discovered in production under your watch, but the original developer is away. How do you approach diagnosing and resolving it?", type: "situational", difficulty: "hard" },
+    { text: "Describe a time when you had to refactor a complex piece of legacy codebase. What was your strategy and the final outcome?", type: "behavioral", difficulty: "medium" },
+    { text: "How do you manage database connection pooling, caching strategies, and query optimization in high-concurrency systems?", type: "technical", difficulty: "hard" }
+  ],
+  "Data Science & AI": [
+    { text: "Explain the difference between overfitting and underfitting. What specific validation techniques do you use to diagnose and mitigate overfitting?", type: "technical", difficulty: "medium" },
+    { text: "What are the primary metrics you use to evaluate a classification model with highly imbalanced classes, and why?", type: "technical", difficulty: "medium" },
+    { text: "A business stakeholder claims that your machine learning model is outputting biased recommendations. How do you investigate and address this?", type: "situational", difficulty: "hard" },
+    { text: "Describe a time when you had to explain a highly complex deep learning model's inner workings to a non-technical stakeholder.", type: "behavioral", difficulty: "easy" },
+    { text: "How do you approach feature selection, dimensionality reduction, and handling missing data in high-dimensional datasets?", type: "technical", difficulty: "hard" }
+  ],
+  "Product & Project Management": [
+    { text: "How do you define, track, and prioritize key performance indicators (KPIs) for a newly launched digital product?", type: "technical", difficulty: "medium" },
+    { text: "Describe your personal framework for prioritizing a product backlog when faced with conflicting demands from sales, engineering, and executives.", type: "technical", difficulty: "hard" },
+    { text: "Engineering estimates that a critical roadmap feature will take twice as long as originally planned. How do you manage this with key stakeholders?", type: "situational", difficulty: "medium" },
+    { text: "Tell me about a product or project launch that didn't go as planned. What did you learn and how did you pivot?", type: "behavioral", difficulty: "medium" },
+    { text: "What are the core differences between Scrum and Kanban? In what scenarios would you choose one methodology over the other?", type: "technical", difficulty: "easy" }
+  ],
+  "Design & Creative": [
+    { text: "How do you balance user-centered design principles with strict business constraints and technical limitations?", type: "technical", difficulty: "medium" },
+    { text: "Describe your UX research and validation process when designing a interface for an unfamiliar, highly specialized technical domain.", type: "technical", difficulty: "hard" },
+    { text: "A product manager insists on implementing a design pattern that you know violates basic web accessibility standards (WCAG). How do you handle it?", type: "situational", difficulty: "hard" },
+    { text: "Tell me about a time you received harsh feedback on a design. How did you process it and iterate on your work?", type: "behavioral", difficulty: "easy" },
+    { text: "Explain how you build and maintain a scalable design system that bridges the gap between Figma and frontend code.", type: "technical", difficulty: "medium" }
+  ],
+  "Marketing & Growth": [
+    { text: "How do you calculate Customer Acquisition Cost (CAC) and Lifetime Value (LTV)? What is a healthy LTV:CAC ratio and why?", type: "technical", difficulty: "medium" },
+    { text: "Describe your strategy for planning, executing, and optimizing a multi-channel digital user acquisition campaign.", type: "technical", difficulty: "medium" },
+    { text: "Your main organic search landing page experiences a sudden 30% drop in traffic over 48 hours. How do you diagnose the issue?", type: "situational", difficulty: "hard" },
+    { text: "Describe a successful growth experiment you ran. What was your hypothesis, how did you test it, and what were the key outcomes?", type: "behavioral", difficulty: "medium" },
+    { text: "What is your approach to setting up multi-touch marketing attribution models to correctly value customer touchpoints?", type: "technical", difficulty: "hard" }
+  ],
+  "Sales & Customer Success": [
+    { text: "How do you handle price and value objections during a high-stakes enterprise software sales negotiation?", type: "technical", difficulty: "hard" },
+    { text: "Describe your framework for diagnosing, predicting, and preventing customer churn in a SaaS subscription model.", type: "technical", difficulty: "medium" },
+    { text: "A major enterprise customer threatens to cancel their contract immediately because of a missing product feature. How do you handle this?", type: "situational", difficulty: "hard" },
+    { text: "Tell me about a time you turned a highly frustrated, dissatisfied customer into an active advocate for your brand.", type: "behavioral", difficulty: "medium" },
+    { text: "What are the key differences between consultative selling and transactional selling? How do you adapt your pitch?", type: "technical", difficulty: "easy" }
+  ],
+  "Finance & Business Operations": [
+    { text: "How do you build a integrated 3-statement financial model, and how do the balance sheet, income statement, and cash flow statement link?", type: "technical", difficulty: "medium" },
+    { text: "Describe how you evaluate a company's working capital management and liquidity ratios to assess operational health.", type: "technical", difficulty: "medium" },
+    { text: "You discover a significant discrepancy in a department's operational budget forecast right before a board review. What are your immediate steps?", type: "situational", difficulty: "hard" },
+    { text: "Describe a complex financial or operational audit you conducted. How did you communicate the findings to management?", type: "behavioral", difficulty: "medium" },
+    { text: "What is the difference between NPV (Net Present Value) and IRR (Internal Rate of Return) in capital budgeting?", type: "technical", difficulty: "easy" }
+  ],
+  "Human Resources & Recruiting": [
+    { text: "How do you design an objective, bias-resistant hiring rubric for a highly specialized technical role?", type: "technical", difficulty: "medium" },
+    { text: "Describe your sourcing and engagement strategy when trying to recruit passive candidates for highly competitive niche positions.", type: "technical", difficulty: "medium" },
+    { text: "A team manager complains about low engagement on their team and high turnover. How do you partner with them to diagnose and resolve this?", type: "situational", difficulty: "hard" },
+    { text: "Describe a time you had to handle a sensitive employee relations issue or workplace conflict. How did you resolve it?", type: "behavioral", difficulty: "medium" },
+    { text: "How do you measure employee Net Promoter Score (eNPS) and use that data to design culture retention strategies?", type: "technical", difficulty: "easy" }
+  ]
+};
+
 const GENERIC_MOCK_QUESTIONS = [
-  { text: "What are the most important design principles you apply when structuring a complex codebase for maintainability?", type: "technical", difficulty: "medium" },
-  { text: "How do you approach writing clean, readable, and highly testable code? What is your testing strategy?", type: "technical", difficulty: "easy" },
   { text: "Describe a challenging project you worked on recently. What was the goal, your specific role, and the outcome?", type: "behavioral", difficulty: "medium" },
-  { text: "How do you manage technical debt in a fast-paced environment where product features are prioritized?", type: "situational", difficulty: "hard" },
-  { text: "Explain a complex technical concept you recently learned to someone who is non-technical.", type: "behavioral", difficulty: "easy" }
+  { text: "How do you manage competing priorities in a fast-paced environment where timelines are constantly shifting?", type: "situational", difficulty: "hard" },
+  { text: "Explain a complex concept from your field that you recently learned to someone who is completely unfamiliar with it.", type: "behavioral", difficulty: "easy" },
+  { text: "Describe a time when you had to work with a team member who had a very different communication style. How did you adapt?", type: "behavioral", difficulty: "medium" }
 ];
 
+function getStreamForRole(role: string): string {
+  for (const [stream, roles] of Object.entries(ROLES_BY_STREAM)) {
+    if (roles.includes(role)) {
+      return stream;
+    }
+  }
+  return "Software Engineering & IT";
+}
+
 function generateMockQuestions(role: string, experienceLevel: string, techStack: string[], count: number): Question[] {
-  const baseQuestions = MOCK_QUESTIONS_MAP[role] || GENERIC_MOCK_QUESTIONS;
+  let baseQuestions = MOCK_QUESTIONS_MAP[role];
+  
+  if (!baseQuestions) {
+    const stream = getStreamForRole(role);
+    baseQuestions = STREAM_MOCK_QUESTIONS_MAP[stream] || GENERIC_MOCK_QUESTIONS;
+  }
   
   // Create randomized list of count items
   const questions: Question[] = [];
