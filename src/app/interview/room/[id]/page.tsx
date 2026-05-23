@@ -52,6 +52,7 @@ export default function InterviewRoomPage() {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [isGeneratingFollowUp, setIsGeneratingFollowUp] = useState(false);
   const [micPermission, setMicPermission] = useState<"granted" | "denied" | "prompt">("prompt");
+  const [responseMode, setResponseMode] = useState<"voice" | "type">("voice");
 
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -350,26 +351,70 @@ export default function InterviewRoomPage() {
                </div>
             </GlassCard>
 
-            {/* Transcription Box */}
-            <GlassCard className="h-48 p-8 relative overflow-hidden bg-[#0a0a0f]/90 border-white/5">
-               <div className="absolute top-4 left-6 flex items-center gap-2">
-                  <div className={cn("w-2 h-2 rounded-full", isListening ? "bg-red-500 animate-pulse" : "bg-slate-500")} />
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Live Transcript</span>
+            {/* Response Panel: Dual-Mode Voice Transcription or Typing Chatbox */}
+            <GlassCard className="h-56 p-8 relative overflow-hidden bg-[#0a0a0f]/90 border-white/5">
+               <div className="absolute top-4 left-6 flex items-center gap-4">
+                  <button
+                    onClick={() => {
+                      setResponseMode("voice");
+                    }}
+                    className={cn(
+                      "text-[10px] font-black uppercase tracking-widest px-3 py-1.5 border-2 transition-all font-mono",
+                      responseMode === "voice"
+                        ? "bg-purple-500/20 border-purple-500 text-purple-400 brutal-shadow-sm"
+                        : "border-white/10 text-slate-500 hover:text-white bg-transparent"
+                    )}
+                  >
+                     🎙️ Speak Response
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (isListening) {
+                        recognitionRef.current?.stop();
+                        setIsListening(false);
+                      }
+                      setResponseMode("type");
+                    }}
+                    className={cn(
+                      "text-[10px] font-black uppercase tracking-widest px-3 py-1.5 border-2 transition-all font-mono",
+                      responseMode === "type"
+                        ? "bg-cyan-500/20 border-cyan-500 text-cyan-400 brutal-shadow-sm"
+                        : "border-white/10 text-slate-500 hover:text-white bg-transparent"
+                    )}
+                  >
+                     💬 Type Response
+                  </button>
                </div>
-               <div className="mt-8 text-slate-200 font-medium leading-relaxed overflow-y-auto h-24 custom-scrollbar pr-4 text-lg">
-                  {transcript}
-                  <span className="text-slate-500">{interimTranscript}</span>
-                  {!transcript && !interimTranscript && !isListening && (
-                    <span className="text-slate-600 italic">Click the microphone and start speaking...</span>
-                  )}
-                  {isListening && !transcript && !interimTranscript && (
-                    <span className="text-purple-400 animate-pulse">Listening for your voice...</span>
-                  )}
-               </div>
+
+               {responseMode === "voice" ? (
+                  <div className="mt-10 text-slate-200 font-medium leading-relaxed overflow-y-auto h-28 custom-scrollbar pr-4 text-lg">
+                     {transcript}
+                     <span className="text-slate-500">{interimTranscript}</span>
+                     {!transcript && !interimTranscript && !isListening && (
+                       <span className="text-slate-600 italic">Click the microphone and start speaking...</span>
+                     )}
+                     {isListening && !transcript && !interimTranscript && (
+                       <span className="text-purple-400 animate-pulse">Listening for your voice...</span>
+                     )}
+                  </div>
+               ) : (
+                  <div className="mt-10 relative h-28">
+                     <textarea
+                       value={transcript}
+                       onChange={(e) => setTranscript(e.target.value)}
+                       placeholder="Type your response here... The AI model will analyze your technical depth, structured answer format, and clarity."
+                       className="w-full h-full bg-[#07070a]/90 text-slate-100 font-mono text-sm p-4 border-2 border-white/10 rounded-xl focus:border-cyan-500 focus:outline-none resize-none custom-scrollbar leading-relaxed"
+                     />
+                     <div className="absolute bottom-3 right-4 text-[9px] font-mono text-slate-500 bg-black/80 px-2 py-0.5 rounded border border-white/5">
+                        {transcript.length} chars
+                     </div>
+                  </div>
+               )}
+
                {!isListening && transcript && (
                  <button 
                   onClick={() => setTranscript("")}
-                  className="absolute bottom-4 right-6 text-[10px] font-bold text-slate-500 hover:text-white uppercase flex items-center gap-1 transition-colors"
+                  className="absolute bottom-4 right-6 text-[10px] font-bold text-slate-500 hover:text-white uppercase flex items-center gap-1 transition-colors z-10"
                  >
                     <RefreshCcw className="w-3 h-3" /> Clear
                  </button>
@@ -383,67 +428,82 @@ export default function InterviewRoomPage() {
                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                
                <div className="relative">
-                  <motion.div
-                    animate={{ 
-                      scale: isListening ? [1, 1.15, 1] : 1,
-                      boxShadow: isListening 
-                        ? ["0 0 20px rgba(139,92,246,0.2)", "0 0 60px rgba(139,92,246,0.5)", "0 0 20px rgba(139,92,246,0.2)"] 
-                        : "0 0 0px rgba(0,0,0,0)"
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className={cn(
-                      "w-32 h-32 rounded-full flex items-center justify-center transition-all duration-500 relative z-10",
-                      isListening 
-                        ? "bg-gradient-to-tr from-red-500 to-pink-500" 
-                        : "bg-gradient-to-tr from-purple-600 to-indigo-600"
-                    )}
-                  >
-                     <button 
-                      onClick={toggleListening}
-                      className="w-full h-full flex items-center justify-center text-white"
+                  {responseMode === "type" ? (
+                     <motion.div
+                       animate={{ 
+                         scale: [1, 1.05, 1],
+                         boxShadow: ["0 0 20px rgba(6,182,212,0.15)", "0 0 50px rgba(6,182,212,0.4)", "0 0 20px rgba(6,182,212,0.15)"] 
+                       }}
+                       transition={{ duration: 3, repeat: Infinity }}
+                       className="w-32 h-32 rounded-full flex items-center justify-center bg-gradient-to-tr from-cyan-600 to-blue-600 relative z-10 text-white"
                      >
-                        {isListening ? (
-                          <motion.div
-                            animate={{ scale: [1, 0.9, 1] }}
-                            transition={{ repeat: Infinity, duration: 1 }}
-                          >
-                            <Mic className="w-12 h-12" />
-                          </motion.div>
-                        ) : (
-                          <MicOff className="w-12 h-12" />
-                        )}
-                     </button>
-                  </motion.div>
-                  
-                  {/* Decorative Rings */}
-                  <AnimatePresence>
-                    {isListening && (
-                      <>
-                        <motion.div 
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 1.5, opacity: 0.3 }}
-                          exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ repeat: Infinity, duration: 1.5 }}
-                          className="absolute inset-0 rounded-full border-2 border-purple-500"
-                        />
-                        <motion.div 
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 2, opacity: 0.1 }}
-                          exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ repeat: Infinity, duration: 2, delay: 0.5 }}
-                          className="absolute inset-0 rounded-full border-2 border-cyan-500"
-                        />
-                      </>
-                    )}
-                  </AnimatePresence>
+                        <MessageSquare className="w-12 h-12" />
+                     </motion.div>
+                  ) : (
+                     <>
+                        <motion.div
+                          animate={{ 
+                            scale: isListening ? [1, 1.15, 1] : 1,
+                            boxShadow: isListening 
+                              ? ["0 0 20px rgba(139,92,246,0.2)", "0 0 60px rgba(139,92,246,0.5)", "0 0 20px rgba(139,92,246,0.2)"] 
+                              : "0 0 0px rgba(0,0,0,0)"
+                          }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                          className={cn(
+                            "w-32 h-32 rounded-full flex items-center justify-center transition-all duration-500 relative z-10",
+                            isListening 
+                              ? "bg-gradient-to-tr from-red-500 to-pink-500" 
+                              : "bg-gradient-to-tr from-purple-600 to-indigo-600"
+                          )}
+                        >
+                           <button 
+                            onClick={toggleListening}
+                            className="w-full h-full flex items-center justify-center text-white"
+                           >
+                              {isListening ? (
+                                <motion.div
+                                  animate={{ scale: [1, 0.9, 1] }}
+                                  transition={{ repeat: Infinity, duration: 1 }}
+                                >
+                                  <Mic className="w-12 h-12" />
+                                </motion.div>
+                              ) : (
+                                <MicOff className="w-12 h-12" />
+                              )}
+                           </button>
+                        </motion.div>
+                        
+                        {/* Decorative Rings */}
+                        <AnimatePresence>
+                          {isListening && (
+                            <>
+                              <motion.div 
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1.5, opacity: 0.3 }}
+                                exit={{ scale: 0.8, opacity: 0 }}
+                                transition={{ repeat: Infinity, duration: 1.5 }}
+                                className="absolute inset-0 rounded-full border-2 border-purple-500"
+                              />
+                              <motion.div 
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 2, opacity: 0.1 }}
+                                exit={{ scale: 0.8, opacity: 0 }}
+                                transition={{ repeat: Infinity, duration: 2, delay: 0.5 }}
+                                className="absolute inset-0 rounded-full border-2 border-cyan-500"
+                              />
+                            </>
+                          )}
+                        </AnimatePresence>
+                     </>
+                  )}
                </div>
                
                <div className="text-center relative z-10">
                   <h3 className="text-xl font-black text-white mb-2 tracking-tight">
-                    {isListening ? "AI is Analyzing" : "Microphone Muted"}
+                    {responseMode === "type" ? "Keyboard Mode Active" : isListening ? "AI is Analyzing" : "Microphone Muted"}
                   </h3>
                   <p className="text-sm text-slate-400">
-                    {isListening ? "Speak clearly for best accuracy" : "Tap the button to start answering"}
+                    {responseMode === "type" ? "Type your response in the chatbox below" : isListening ? "Speak clearly for best accuracy" : "Tap the button to start answering"}
                   </p>
                </div>
             </GlassCard>
