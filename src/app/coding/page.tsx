@@ -14,15 +14,86 @@ import { PROGRAMMING_LANGUAGES, cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
+import { useAppStore } from "@/lib/store";
 
-type PistonExecutionResult = {
-  stdout?: string;
-  stderr?: string;
-  compile_output?: string;
-  output?: string;
-  time?: string;
-  memory?: string;
-};
+interface CodingQuestion {
+  title: string;
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  description: string;
+  examples: Array<{ input: string; output: string }>;
+  constraints: string[];
+}
+
+const CODING_QUESTIONS_POOL: CodingQuestion[] = [
+  {
+    title: "Reverse Linked List",
+    difficulty: "EASY",
+    description: "Given the head of a singly linked list, reverse the list, and return the reversed list.",
+    examples: [
+      { input: "head = [1,2,3,4,5]", output: "[5,4,3,2,1]" },
+      { input: "head = [1,2]", output: "[2,1]" }
+    ],
+    constraints: [
+      "The number of nodes in the list is the range [0, 5000].",
+      "-5000 <= Node.val <= 5000"
+    ]
+  },
+  {
+    title: "Two Sum",
+    difficulty: "EASY",
+    description: "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`. You may assume that each input would have exactly one solution, and you may not use the same element twice.",
+    examples: [
+      { input: "nums = [2,7,11,15], target = 9", output: "[0,1]" },
+      { input: "nums = [3,2,4], target = 6", output: "[1,2]" }
+    ],
+    constraints: [
+      "2 <= nums.length <= 10^4",
+      "-10^9 <= nums[i] <= 10^9",
+      "-10^9 <= target <= 10^9"
+    ]
+  },
+  {
+    title: "Valid Parentheses",
+    difficulty: "EASY",
+    description: "Given a string `s` containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. An input string is valid if open brackets are closed by the same type of brackets, and in the correct order.",
+    examples: [
+      { input: "s = '()'", output: "true" },
+      { input: "s = '()[]{}'", output: "true" },
+      { input: "s = '(]'", output: "false" }
+    ],
+    constraints: [
+      "1 <= s.length <= 10^4",
+      "s consists of parentheses only '()[]{}'"
+    ]
+  },
+  {
+    title: "Maximum Subarray",
+    difficulty: "MEDIUM",
+    description: "Given an integer array `nums`, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.",
+    examples: [
+      { input: "nums = [-2,1,-3,4,-1,2,1,-5,4]", output: "6" },
+      { input: "nums = [1]", output: "1" }
+    ],
+    constraints: [
+      "1 <= nums.length <= 10^5",
+      "-10^4 <= nums[i] <= 10^4"
+    ]
+  },
+  {
+    title: "Container With Most Water",
+    difficulty: "MEDIUM",
+    description: "Given `n` non-negative integers `height` where each represents a point at coordinate `(i, height[i])`. vertical lines are drawn such that the two endpoints of the line `i` is at `(i, height[i])` and `(i, 0)`. Find two lines, which, together with the x-axis forms a container, such that the container contains the most water.",
+    examples: [
+      { input: "height = [1,8,6,2,5,4,8,3,7]", output: "49" },
+      { input: "height = [1,1]", output: "1" }
+    ],
+    constraints: [
+      "n == height.length",
+      "2 <= n <= 10^5",
+      "0 <= height[i] <= 10^4"
+    ]
+  }
+];
 
 type TestResult = {
   id: number;
@@ -34,6 +105,9 @@ type TestResult = {
 
 export default function CodingPage() {
   const [selectedLang, setSelectedLang] = useState(PROGRAMMING_LANGUAGES[0]);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const currentQuestion = CODING_QUESTIONS_POOL[questionIndex];
+  
   const [code, setCode] = useState(selectedLang.template);
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,6 +116,8 @@ export default function CodingPage() {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
   const [isSolved, setIsSolved] = useState(false);
+  
+  const { setCodingPoints, codingPoints } = useAppStore();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -56,11 +132,38 @@ export default function CodingPage() {
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
+  const getCustomizedTemplate = (langId: string, q: CodingQuestion) => {
+    const lang = PROGRAMMING_LANGUAGES.find(l => l.id === langId);
+    if (!lang) return "";
+
+    if (q.title === "Two Sum") {
+      if (langId === "javascript" || langId === "typescript") {
+        return `// Write your Two Sum solution here\nfunction solution(nums, target) {\n  // Your code here\n  for (let i = 0; i < nums.length; i++) {\n    for (let j = i + 1; j < nums.length; j++) {\n      if (nums[i] + nums[j] === target) return [i, j];\n    }\n  }\n  return [];\n}\n\nconsole.log(solution([2,7,11,15], 9));\n`;
+      } else if (langId === "python") {
+        return `# Write your Two Sum solution here\ndef solution(nums, target):\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] + nums[j] == target:\n                return [i, j]\n    return []\n\nprint(solution([2,7,11,15], 9))\n`;
+      }
+    } else if (q.title === "Valid Parentheses") {
+      if (langId === "javascript" || langId === "typescript") {
+        return `// Write your Valid Parentheses solution here\nfunction solution(s) {\n  const stack = [];\n  const map = { ')': '(', '}': '{', ']': '[' };\n  for (let char of s) {\n    if (char === '(' || char === '{' || char === '[') {\n      stack.push(char);\n    } else {\n      if (stack.pop() !== map[char]) return false;\n    }\n  }\n  return stack.length === 0;\n}\n\nconsole.log(solution("()[]{}"));\n`;
+      } else if (langId === "python") {
+        return `# Write your Valid Parentheses solution here\ndef solution(s):\n    stack = []\n    mapping = {")": "(", "}": "{", "]": "["}\n    for char in s:\n        if char in mapping.values():\n            stack.append(char)\n        elif char in mapping.keys():\n            if not stack or stack.pop() != mapping[char]:\n                return False\n    return len(stack) == 0\n\nprint(solution("()[]{}"))\n`;
+      }
+    } else if (q.title === "Maximum Subarray") {
+      if (langId === "javascript" || langId === "typescript") {
+        return `// Write your Maximum Subarray solution here\nfunction solution(nums) {\n  let maxSoFar = nums[0];\n  let maxEndingHere = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    maxEndingHere = Math.max(nums[i], maxEndingHere + nums[i]);\n    maxSoFar = Math.max(maxSoFar, maxEndingHere);\n  }\n  return maxSoFar;\n}\n\nconsole.log(solution([-2,1,-3,4,-1,2,1,-5,4]));\n`;
+      } else if (langId === "python") {
+        return `# Write your Maximum Subarray solution here\ndef solution(nums):\n    max_so_far = nums[0]\n    max_ending_here = nums[0]\n    for i in range(1, len(nums)):\n        max_ending_here = max(nums[i], max_ending_here + nums[i])\n        max_so_far = max(max_so_far, max_ending_here)\n    return max_so_far\n\nprint(solution([-2,1,-3,4,-1,2,1,-5,4]))\n`;
+      }
+    }
+
+    return lang.template;
+  };
+
   const handleLangChange = (langId: string) => {
     const lang = PROGRAMMING_LANGUAGES.find(l => l.id === langId);
     if (lang) {
       setSelectedLang(lang);
-      setCode(lang.template);
+      setCode(getCustomizedTemplate(langId, currentQuestion));
     }
   };
 
@@ -120,7 +223,7 @@ export default function CodingPage() {
       const isSuccess = result.stdout && !result.stderr;
       
       // Save submission
-      await fetch("/api/coding/submit", {
+      const res = await fetch("/api/coding/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -135,6 +238,8 @@ export default function CodingPage() {
 
       if (isSuccess) {
         setIsSolved(true);
+        // Hydrate points locally
+        setCodingPoints(codingPoints + 100);
         toast.success("Solution submitted successfully! +100 Points", { id: "submit" });
       } else {
         toast.error("Submission failed hidden tests.", { id: "submit" });
@@ -146,9 +251,23 @@ export default function CodingPage() {
     }
   };
 
+  const loadNextQuestion = () => {
+    const nextIndex = (questionIndex + 1) % CODING_QUESTIONS_POOL.length;
+    setQuestionIndex(nextIndex);
+    setIsSolved(false);
+    setOutput("");
+    setTestResults([]);
+    
+    const nextQ = CODING_QUESTIONS_POOL[nextIndex];
+    setCode(getCustomizedTemplate(selectedLang.id, nextQ));
+    setActiveTab("problem");
+    
+    toast.success(`Loaded Next Challenge: ${nextQ.title}`);
+  };
+
   const resetCode = () => {
     if (confirm("Are you sure you want to reset your code to the default template?")) {
-      setCode(selectedLang.template);
+      setCode(getCustomizedTemplate(selectedLang.id, currentQuestion));
       setOutput("");
       setTestResults([]);
       toast("Code reset to template");
@@ -192,38 +311,42 @@ export default function CodingPage() {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 10 }}
+                        key={currentQuestion.title}
                         className="space-y-6"
                       >
                          <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-bold text-white tracking-tight">Reverse Linked List</h2>
-                            <span className="badge badge-blue text-[10px]">EASY</span>
+                            <h2 className="text-xl font-bold text-white tracking-tight uppercase font-mono">{currentQuestion.title}</h2>
+                            <span className={cn(
+                              "text-[10px] font-black uppercase font-mono tracking-widest px-3 py-1 border-2",
+                              currentQuestion.difficulty === "EASY" ? "bg-emerald-500/10 border-emerald-500 text-emerald-400" : "bg-amber-500/10 border-amber-500 text-amber-400"
+                            )}>
+                              {currentQuestion.difficulty}
+                            </span>
                          </div>
                          
                          <div className="text-sm font-bold text-slate-400 leading-relaxed space-y-6 font-mono">
-                            <p>Given the head of a singly linked list, reverse the list, and return the reversed list.</p>
-                            <div className="p-6 border-4 border-white/20 bg-black brutal-shadow-sm space-y-6">
-                               <div>
-                                  <p className="text-[10px] font-black text-slate-500 uppercase mb-3 tracking-widest">Example 1</p>
-                                  <code className="text-primary bg-white/5 p-4 block font-mono text-[12px] border-2 border-white/20">
-                                    Input: head = [1,2,3,4,5]<br />
-                                    Output: [5,4,3,2,1]
-                                  </code>
-                               </div>
-                               <div>
-                                  <p className="text-[10px] font-black text-slate-500 uppercase mb-3 tracking-widest">Example 2</p>
-                                  <code className="text-primary bg-white/5 p-4 block font-mono text-[12px] border-2 border-white/20">
-                                    Input: head = [1,2]<br />
-                                    Output: [2,1]
-                                  </code>
-                               </div>
+                            <p>{currentQuestion.description}</p>
+                            
+                            <div className="p-6 border-4 border-white/20 bg-[#07070a] brutal-shadow-sm space-y-6">
+                               {currentQuestion.examples.map((eg, idx) => (
+                                 <div key={idx}>
+                                    <p className="text-[10px] font-black text-slate-500 uppercase mb-3 tracking-widest">Example {idx + 1}</p>
+                                    <code className="text-primary bg-white/5 p-4 block font-mono text-[12px] border-2 border-white/20 whitespace-pre-wrap leading-relaxed">
+                                      Input: {eg.input}<br />
+                                      Output: {eg.output}
+                                    </code>
+                                 </div>
+                               ))}
                             </div>
+
                             <div className="space-y-4 pt-4">
                                <p className="font-black text-white flex items-center gap-3 uppercase tracking-tight">
                                   <Info className="w-5 h-5 text-primary" /> Constraints:
                                </p>
                                <ul className="list-disc pl-6 space-y-2 marker:text-primary text-xs">
-                                  <li>The number of nodes in the list is the range [0, 5000].</li>
-                                  <li>-5000 &lt;= Node.val &lt;= 5000</li>
+                                  {currentQuestion.constraints.map((c, idx) => (
+                                    <li key={idx}>{c}</li>
+                                  ))}
                                </ul>
                             </div>
                          </div>
@@ -252,7 +375,7 @@ export default function CodingPage() {
                             <div className="text-center py-20">
                                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4">
                                   <Terminal className="w-6 h-6 text-slate-600" />
-                               </div>
+                                </div>
                                <p className="text-slate-500 text-sm font-medium">Run your code to see test results</p>
                             </div>
                          )}
@@ -346,14 +469,23 @@ export default function CodingPage() {
                        {isRunning ? <Loader2 className="w-5 h-5 animate-spin text-black" /> : <Play className="w-5 h-5 fill-current" />}
                        {isRunning ? "RUNNING..." : "RUN TESTS"}
                     </button>
-                    <button 
-                      onClick={submitSolution}
-                      disabled={isRunning || isSubmitting || isSolved}
-                      className="px-8 py-3 btn-primary text-xs font-black uppercase tracking-widest font-mono flex items-center gap-3 disabled:opacity-50"
-                    >
-                       {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : isSolved ? <CheckCircle2 className="w-5 h-5" /> : null}
-                       {isSubmitting ? "SUBMITTING..." : isSolved ? "SUBMITTED" : "FINAL SUBMIT"}
-                    </button>
+                    {isSolved ? (
+                      <button 
+                        onClick={loadNextQuestion}
+                        className="px-8 py-3 bg-primary border-4 border-black text-black text-xs font-black uppercase tracking-widest font-mono hover:bg-black hover:text-primary hover:border-primary brutal-shadow transition-colors flex items-center gap-3"
+                      >
+                         NEXT CHALLENGE <ChevronRight className="w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={submitSolution}
+                        disabled={isRunning || isSubmitting}
+                        className="px-8 py-3 btn-primary text-xs font-black uppercase tracking-widest font-mono flex items-center gap-3 disabled:opacity-50"
+                      >
+                         {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
+                         {isSubmitting ? "SUBMITTING..." : "FINAL SUBMIT"}
+                      </button>
+                    )}
                  </div>
               </div>
            </div>
