@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { getDb } from "@/db";
 import { resumes } from "@/db/schema";
 import { getStorageProvider } from "@/lib/storage";
+import { PDFParse } from "pdf-parse";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -28,11 +29,10 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     
-    // Dynamically require pdf-parse to prevent build-time evaluation errors
-    const pdfImport = await import("pdf-parse") as any;
-    const pdf = pdfImport.default || pdfImport;
-    const pdfData = await pdf(buffer);
+    const parser = new PDFParse({ data: buffer });
+    const pdfData = await parser.getText();
     const parsedText = pdfData.text;
+    await parser.destroy();
 
     // Save metadata to D1
     const db = getDb();
