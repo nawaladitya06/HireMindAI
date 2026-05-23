@@ -12,7 +12,7 @@ import {
   Briefcase, MessageSquare, Code2, Sparkles, TrendingUp, Brain, ArrowRight
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
-import { formatDate, getScoreColor, cn } from "@/lib/utils";
+import { formatDate, getScoreColor, cn, ROLES_BY_STREAM } from "@/lib/utils";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
@@ -80,11 +80,19 @@ export default function DashboardPage() {
     ];
   }, [interviews, stats.avgScore]);
 
+  const isSoftware = useMemo(() => {
+    const userRole = user?.role || "";
+    return !userRole || (ROLES_BY_STREAM["Software Engineering & IT"]?.includes(userRole));
+  }, [user?.role]);
+
   return (
     <DashboardLayout 
       title={`Welcome back, ${user?.name.split(' ')[0]}`}
       subtitle="Your interview readiness is looking strong this week."
-      action={{ label: "New Interview Session", href: "/interview/setup" }}
+      action={isSoftware 
+        ? { label: "New Coding Round", href: "/coding" }
+        : { label: "New Interview Session", href: "/interview/setup" }
+      }
     >
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -312,8 +320,8 @@ export default function DashboardPage() {
                                  <h4 className="text-white font-bold mb-1">No session history found</h4>
                                  <p className="text-slate-500 text-sm">You haven't completed any interviews yet. Start your first session to see your progress.</p>
                               </div>
-                              <Link href="/interview/setup" className="btn-primary py-2 px-6 text-xs">
-                                 Start First Interview
+                              <Link href={isSoftware ? "/coding" : "/interview/setup"} className="btn-primary py-2 px-6 text-xs">
+                                 {isSoftware ? "Start First Coding Round" : "Start First Interview"}
                               </Link>
                            </div>
                         </td>

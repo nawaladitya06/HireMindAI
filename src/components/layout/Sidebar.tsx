@@ -8,7 +8,7 @@ import {
   ChevronLeft, ChevronRight, Star, Shield, Zap, LogOut, Sparkles
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
-import { cn } from "@/lib/utils";
+import { cn, ROLES_BY_STREAM } from "@/lib/utils";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -69,24 +69,34 @@ export function Sidebar() {
                 Platform
               </h4>
               <div className="space-y-2">
-                {navItems.map((item) => {
-                  const isActive = pathname === item.href;
-                  return (
-                    <Link key={item.href} href={item.href}>
-                      <div className={cn(
-                        "flex items-center gap-3 px-4 py-3 border-2 transition-all font-mono text-xs uppercase tracking-tight",
-                        isActive 
-                          ? "bg-primary text-black border-primary brutal-shadow-sm translate-x-[2px] translate-y-[2px]" 
-                          : "bg-black text-white border-transparent hover:border-white/20 hover:bg-[#111]"
-                      )}>
-                        <item.icon className={cn("w-4 h-4 flex-shrink-0", isActive ? "text-black" : "text-white")} />
-                        <span className="font-bold whitespace-nowrap">
-                          {item.label}
-                        </span>
-                      </div>
-                    </Link>
-                  );
-                })}
+                {(() => {
+                  const userRole = user?.role || "";
+                  const isSoftware = !userRole || (ROLES_BY_STREAM["Software Engineering & IT"]?.includes(userRole));
+                  const filteredNavItems = navItems.filter((item) => {
+                    if (item.href === "/coding") return isSoftware;
+                    if (item.href === "/interview/setup") return !isSoftware;
+                    return true;
+                  });
+
+                  return filteredNavItems.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <Link key={item.href} href={item.href}>
+                        <div className={cn(
+                          "flex items-center gap-3 px-4 py-3 border-2 transition-all font-mono text-xs uppercase tracking-tight",
+                          isActive 
+                            ? "bg-primary text-black border-primary brutal-shadow-sm translate-x-[2px] translate-y-[2px]" 
+                            : "bg-black text-white border-transparent hover:border-white/20 hover:bg-[#111]"
+                        )}>
+                          <item.icon className={cn("w-4 h-4 flex-shrink-0", isActive ? "text-black" : "text-white")} />
+                          <span className="font-bold whitespace-nowrap">
+                            {item.label}
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  });
+                })()}
               </div>
            </div>
 
