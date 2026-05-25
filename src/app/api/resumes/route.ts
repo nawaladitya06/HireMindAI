@@ -1,12 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { getDb } from "@/db";
 import { resumes } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { getStorageProvider } from "@/lib/storage";
 
-export const GET = auth(async (req) => {
-  if (!req.auth?.user?.id) {
+export async function GET(req: NextRequest) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -15,7 +17,7 @@ export const GET = auth(async (req) => {
     const userResumes = await db
       .select()
       .from(resumes)
-      .where(eq(resumes.userId, req.auth.user.id))
+      .where(eq(resumes.userId, session.user.id))
       .orderBy(desc(resumes.createdAt));
 
     return NextResponse.json(userResumes);
@@ -23,10 +25,12 @@ export const GET = auth(async (req) => {
     console.error("Failed to fetch resumes:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-});
+}
 
-export const DELETE = auth(async (req) => {
-  if (!req.auth?.user?.id) {
+export async function DELETE(req: NextRequest) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -52,7 +56,7 @@ export const DELETE = auth(async (req) => {
     }
 
     // Verify ownership
-    if (resume.userId !== req.auth.user.id) {
+    if (resume.userId !== session.user.id) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -70,4 +74,4 @@ export const DELETE = auth(async (req) => {
     console.error("Failed to delete resume:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-});
+}

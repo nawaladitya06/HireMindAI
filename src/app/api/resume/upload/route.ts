@@ -1,12 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { getDb } from "@/db";
 import { resumes } from "@/db/schema";
 import { getStorageProvider } from "@/lib/storage";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export const POST = auth(async (req) => {
-  if (!req.auth?.user?.id) {
+export async function POST(req: NextRequest) {
+  const session = await auth();
+  
+  if (!session?.user?.id) {
+    console.error("[Upload API] 401 Unauthorized - No session found");
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -24,7 +26,7 @@ export const POST = auth(async (req) => {
 
   try {
     const storage = getStorageProvider();
-    const path = `resumes/${req.auth.user.id}`;
+    const path = `resumes/${session.user.id}`;
     
     // Upload file
     const { url, key } = await storage.uploadFile(file, path);
@@ -36,7 +38,7 @@ export const POST = auth(async (req) => {
     const db = getDb();
     await db.insert(resumes).values({
       id: crypto.randomUUID(),
-      userId: req.auth.user.id,
+      userId: session.user.id,
       fileName: file.name,
       fileKey: key,
       fileUrl: url,
