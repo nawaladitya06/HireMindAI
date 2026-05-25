@@ -12,9 +12,14 @@ export const POST = auth(async (req) => {
 
   const formData = await req.formData();
   const file = formData.get("file") as File;
+  const parsedText = formData.get("parsedText") as string;
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
+  }
+  
+  if (!parsedText) {
+    return NextResponse.json({ error: "No parsed text provided" }, { status: 400 });
   }
 
   try {
@@ -24,24 +29,8 @@ export const POST = auth(async (req) => {
     // Upload file
     const { url, key } = await storage.uploadFile(file, path);
 
-    // Extract text from PDF using Gemini native vision OCR to avoid Vercel Web Worker crashes
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
-    const result = await model.generateContent([
-      {
-        inlineData: {
-          data: buffer.toString("base64"),
-          mimeType: "application/pdf"
-        }
-      },
-      "Extract all the text from this resume PDF accurately. Ensure all contact info, skills, and experience are preserved. Output ONLY the raw text without any markdown or conversational filler."
-    ]);
-    
-    const parsedText = result.response.text();
+    // The text has already been parsed on the client-side using pdfjs-dist.
+    // This bypasses Vercel server timeouts and 1MB size limits.
 
     // Save metadata to D1
     const db = getDb();

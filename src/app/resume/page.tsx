@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { generateResumeQuestions, analyzeResume } from "@/lib/gemini";
 import { useAppStore } from "@/lib/store";
+import { extractTextFromPDF } from "@/lib/pdf-parser";
 import { useRouter } from "next/navigation";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 
@@ -60,10 +61,18 @@ export default function ResumePage() {
     setIsUploading(true);
     
     try {
+      // Parse PDF on the client
+      const text = await extractTextFromPDF(file);
+      
+      if (!text || text.trim().length === 0) {
+        throw new Error("Could not extract readable text from this PDF.");
+      }
+
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("parsedText", text);
 
-      // Upload and parse the PDF
+      // Upload and save the parsed text
       const uploadRes = await fetch("/api/resume/upload", {
         method: "POST",
         body: formData,
