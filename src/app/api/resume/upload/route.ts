@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
       parsedText: parsedText,
       message: "Resume uploaded and parsed successfully" 
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Upload Error:", error);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    return NextResponse.json({ error: `Upload failed: ${error.message}` }, { status: 500 });
   }
 }
