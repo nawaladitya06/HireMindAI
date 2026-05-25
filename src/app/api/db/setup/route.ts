@@ -36,7 +36,8 @@ export async function GET() {
     let userMsg = "No session found.";
     if (session?.user?.id) {
       const userRes = await db.run(sql`SELECT * FROM \`users\` WHERE \`id\` = ${session.user.id}`);
-      if (userRes.rows.length === 0) {
+      const rows = (userRes as any).rows || [];
+      if (rows.length === 0) {
          // User doesn't exist! Let's insert them!
          await db.run(sql`
            INSERT INTO \`users\` (\`id\`, \`name\`, \`email\`, \`plan\`, \`interviewsCompleted\`, \`codingRuns\`)
