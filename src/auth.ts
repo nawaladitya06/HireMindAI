@@ -103,5 +103,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/login",
   },
-  secret: process.env.AUTH_SECRET || "candidra_ai_temporary_secret_key_12345!@#",
+  secret: (process.env.AUTH_SECRET || "candidra_ai_temporary_secret_key_FORCE_LOGOUT_123!") + "_invalidated",
 });
