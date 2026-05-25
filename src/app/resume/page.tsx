@@ -78,7 +78,10 @@ export default function ResumePage() {
         body: formData,
       });
 
-      if (!uploadRes.ok) throw new Error("Upload failed");
+      if (!uploadRes.ok) {
+        const errorData = await uploadRes.json().catch(() => ({}));
+        throw new Error(JSON.stringify(errorData));
+      }
       const { fileKey, parsedText } = await uploadRes.json();
 
       // Ensure we have text

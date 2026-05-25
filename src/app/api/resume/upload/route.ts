@@ -8,8 +8,8 @@ export async function POST(req: NextRequest) {
   const session = await auth();
   
   if (!session?.user?.id) {
-    console.error("[Upload API] 401 Unauthorized - No session found");
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    console.error("[Upload API] 401 Unauthorized - No session found", session);
+    return NextResponse.json({ error: "Unauthorized", sessionDebug: session }, { status: 401 });
   }
 
   const formData = await req.formData();
